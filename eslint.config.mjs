@@ -8,6 +8,7 @@ export default [
         node: 'readonly', // Définit l'environnement Node.js
         es2021: 'readonly', // Utilisation d'ES2021
         jest: 'readonly', // Si tu utilises Jest pour les tests
+        structuredClone: 'readonly', // Si tu utilises structuredClone
       },
       parserOptions: {
         ecmaVersion: 'latest', // Utilisation de la dernière version ECMAScript
