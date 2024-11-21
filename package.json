@@ -16,7 +16,7 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "test": "echo \"No tests defined\"",
-    "deploy": "npm run lint && npm run format && npm run build && npm run start"
+    "deploy": "npm run lint && npm run format && npm run start"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,css,md}": [
