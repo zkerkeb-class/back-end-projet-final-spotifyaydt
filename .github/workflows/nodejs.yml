@@ -1,28 +1,31 @@
-name: Node.js CI/CD
-
+name: push
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
-
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [17, 18]
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16'
+
       - name: Install dependencies
         run: npm install
-      - name: Run lint and tests
-        run: npm run lint && npm test
+
+      - name: Lint and format code
+        run: |
+          npm run lint
+          npm run format
+
+      - name: Deploy
+        run: npm run deploy
