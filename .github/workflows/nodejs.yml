@@ -26,5 +26,4 @@ jobs:
         run: npm install
       - name: Run lint and tests
         run: npm run lint && npm test
-      - name: Build and deploy (optionnel)
-        run: npm run build
+      # Étape "Build and deploy" supprimée
