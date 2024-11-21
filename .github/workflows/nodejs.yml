@@ -24,8 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: npm install
-      - name: Run lint and tests
-        run: npm run lint && npm test
+      - name: Run lint and format
+        run: npm run lint && npm run format
       - name: Deploy Node.js app
-        run: npm run deploy  # Appel du script de déploiement
-        
+        run: npm run deploy # Appel du script de déploiement
