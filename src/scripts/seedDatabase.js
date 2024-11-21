@@ -1,26 +1,21 @@
 // src/scripts/seedDatabase.js
-const mongoose = require('mongoose');
-const faker = require('@faker-js/faker').faker;
-const Artist = require('../models/Artist');
-const Album = require('../models/Album').default;
-const Track = require('../models/Track').default;
+import { disconnect } from 'mongoose';
+import connectDB from '../config/db.js';
+import { faker } from '@faker-js/faker';
+import Artist from '../models/Artist.js';
+import Album from '../models/Album.js';
+import Track from '../models/Track.js';
 
 // Connexion à MongoDB
-mongoose
-  .connect(process.env.DB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('Connecté à MongoDB'))
-  .catch((err) => console.log('Erreur de connexion à MongoDB:', err));
+connectDB();
 
 // Fonction pour générer un artiste
 async function createFakeArtist() {
   const artist = new Artist({
-    name: faker.name.findName(),
+    name: faker.person.fullName(),
     genre: faker.music.genre(),
     description: faker.lorem.paragraph(),
-    popularity: faker.datatype.number({ min: 0, max: 100 }),
+    popularity: faker.number.int({ min: 0, max: 100 }),
   });
 
   await artist.save();
@@ -34,7 +29,7 @@ async function createFakeAlbum(artist) {
     artist: artist._id,
     genre: faker.music.genre(),
     releaseDate: faker.date.past(5),
-    coverImage: faker.image.imageUrl(),
+    coverImage: faker.image.url(),
   });
 
   await album.save();
@@ -48,9 +43,9 @@ async function createFakeTrack(album, artist) {
     artist: artist._id,
     album: album._id,
     genre: faker.music.genre(),
-    duration: faker.datatype.number({ min: 120, max: 300 }), // durée en secondes
+    duration: faker.number.int({ min: 120, max: 300 }), // durée en secondes
     filePath: faker.internet.url(),
-    listens: faker.datatype.number({ min: 0, max: 1000 }),
+    listens: faker.number.int({ min: 0, max: 1000 }),
   });
 
   await track.save();
@@ -78,7 +73,7 @@ async function seedDatabase() {
   }
 
   console.log('Base de données peuplée avec des données factices.');
-  mongoose.disconnect();
+  disconnect();
 }
 
 // Lancer le processus de seeding
