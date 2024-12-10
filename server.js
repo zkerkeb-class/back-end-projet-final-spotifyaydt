@@ -1,37 +1,13 @@
 import express, { json } from 'express';
-import { createClient } from '@redis/client';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
 import connectDB from './src/config/db.js';
+import routes from './src/routes/index.js';
+import redisClient from './src/config/redis.js'; // Importez le client Redis
+import setupSwagger from './src/config/swagger.js'; // Importez la configuration Swagger
 
 const app = express();
 app.use(json());
-
-// Configuration du client Redis
-const redisClient = createClient({
-  host: 'localhost', // L'adresse de votre serveur Redis
-  port: 6379, // Le port par défaut de Redis
-});
-
-// Connexion Redis
-redisClient
-  .connect()
-  .then(() => {
-    console.log('Connecté à Redis');
-
-    // Vérification de la connexion Redis
-    redisClient
-      .ping()
-      .then((response) => {
-        console.log('Réponse de Redis:', response); // Cela devrait afficher "PONG"
-      })
-      .catch((err) => {
-        console.error('Erreur avec ping Redis:', err);
-      });
-  })
-  .catch((err) => {
-    console.error('Erreur de connexion à Redis:', err);
-  });
 
 // Configuration de la session avec Redis
 app.use(
@@ -46,6 +22,11 @@ app.use(
 
 // Connexion à la base de données
 connectDB();
+
+// Utilisation des routes
+app.use('/api', routes); // Utilisez le fichier de routes principal
+
+setupSwagger(app); // Utilisez la configuration Swagger
 
 // Exemple de route pour tester les sessions
 app.get('/session', (req, res) => {
