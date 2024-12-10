@@ -98,3 +98,36 @@ export const deletePlaylist = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Récupérer les playlists triées par nombre de pistes (du plus grand au plus petit)
+export const getPlaylistsSortedByTrackCount = async (req, res) => {
+  try {
+    const cacheKey = 'playlists:sorted:trackCount';
+    const cachedPlaylists = await redisClient.get(cacheKey);
+
+    if (cachedPlaylists) {
+      return res.status(200).json(JSON.parse(cachedPlaylists));
+    }
+
+    // Récupérer toutes les playlists et les trier par la taille du tableau tracks
+    const playlists = await Playlist.aggregate([
+      {
+        $project: {
+          name: 1,
+          tracks: 1,
+          trackCount: { $size: '$tracks' },
+        },
+      },
+      { $sort: { trackCount: -1 } },
+    ]).exec();
+
+    // Populate les tracks après l'agrégation
+    await Playlist.populate(playlists, { path: 'tracks' });
+
+    await redisClient.set(cacheKey, JSON.stringify(playlists), 'EX', 3600);
+
+    res.status(200).json(playlists);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

@@ -36,6 +36,10 @@ const trackSchema = new Schema(
       type: Number,
       default: 0,
     },
+    releaseDate: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

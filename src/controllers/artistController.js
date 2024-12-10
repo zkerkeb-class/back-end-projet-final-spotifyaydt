@@ -97,3 +97,45 @@ export const deleteArtist = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// Récupérer les artistes par genre
+export const getArtistsByGenre = async (req, res) => {
+  try {
+    const { genre } = req.params;
+    const cacheKey = `artists:genre:${genre}`;
+    const cachedArtists = await redisClient.get(cacheKey);
+
+    if (cachedArtists) {
+      return res.status(200).json(JSON.parse(cachedArtists)); // Retourne les données du cache
+    }
+
+    const artists = await Artist.find({ genre }).populate('albums');
+    await redisClient.set(cacheKey, JSON.stringify(artists), 'EX', 3600); // Stocke dans Redis avec expiration de 1h
+
+    res.status(200).json(artists);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Récupérer les artistes triés par ordre alphabétique
+export const getArtistsSortedByName = async (req, res) => {
+  try {
+    const cacheKey = 'artists:sorted:name';
+    const cachedArtists = await redisClient.get(cacheKey);
+
+    if (cachedArtists) {
+      return res.status(200).json(JSON.parse(cachedArtists));
+    }
+
+    const artists = await Artist.find()
+      .sort({ name: 1 }) // 1 pour trier par ordre alphabétique
+      .populate('albums');
+
+    await redisClient.set(cacheKey, JSON.stringify(artists), 'EX', 3600);
+
+    res.status(200).json(artists);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
