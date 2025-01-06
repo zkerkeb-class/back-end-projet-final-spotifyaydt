@@ -39,7 +39,7 @@ const trackSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 // Exportation du modèle

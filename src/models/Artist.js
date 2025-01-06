@@ -32,7 +32,7 @@ const artistSchema = new Schema(
   },
   {
     timestamps: true, // Ajoute des champs createdAt et updatedAt
-  },
+  }
 );
 
 // Exportation du modèle

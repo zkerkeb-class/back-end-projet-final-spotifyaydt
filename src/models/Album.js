@@ -36,7 +36,7 @@ const albumSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 // Exportation du modèle

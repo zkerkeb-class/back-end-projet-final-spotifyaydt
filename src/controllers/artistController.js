@@ -70,11 +70,10 @@ const invalidateArtistCache = async (id = null) => {
 // Ajoutez une invalidation de cache dans les fonctions de mise à jour et de suppression
 export const updateArtist = async (req, res) => {
   try {
-    const updatedArtist = await Artist.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true },
-    ).populate('albums');
+    const updatedArtist = await Artist.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate('albums');
     if (!updatedArtist) {
       return res.status(404).json({ message: 'Artiste non trouvé' });
     }
