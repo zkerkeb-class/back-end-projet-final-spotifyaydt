@@ -1,15 +1,22 @@
-import { set, connect } from 'mongoose';
+import mongoose from 'mongoose';
 import { commonConfig } from './env.js';
+import { logger } from './logger.js';
 
-const connectToDb = async () => {
-  set('strictQuery', false);
-  await connect(
-    `mongodb+srv://${commonConfig.username}:${commonConfig.password}@${commonConfig.cluster}.mongodb.net/?retryWrites=true&w=majority`
-  )
-    .then(() => {
-      console.log('successfully connect to database');
-    })
-    .catch((err) => console.log(err));
+const connectDB = async () => {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${commonConfig.username}:${commonConfig.password}@${commonConfig.cluster}.mongodb.net/?retryWrites=true&w=majority`
+    );
+
+    logger.info('MongoDB connecté avec succès');
+
+    mongoose.connection.on('error', (err) => {
+      logger.error('Erreur MongoDB:', err);
+    });
+  } catch (error) {
+    logger.error('Erreur de connexion à MongoDB:', error);
+    process.exit(1);
+  }
 };
 
-export default connectToDb;
+export default connectDB;

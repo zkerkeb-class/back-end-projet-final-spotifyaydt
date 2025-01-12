@@ -6,6 +6,7 @@ import connectDB from './src/config/db.js';
 import routes from './src/routes/index.js';
 import redisClient from './src/config/redis.js';
 import setupSwagger from './src/config/swagger.js';
+import metricsRoutes from './src/routes/metricsRoutes.js';
 
 const app = express();
 
@@ -55,6 +56,8 @@ app.get('/session', (req, res) => {
 app.get('/', (req, res) => {
   res.send('Hello, this is the API!');
 });
+
+app.use('/api/metrics', metricsRoutes);
 
 // Démarrer le serveur
 const PORT = process.env.PORT || 5000;
