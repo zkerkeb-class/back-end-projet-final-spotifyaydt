@@ -1,26 +1,15 @@
 import express from 'express';
 import * as trackController from '../controllers/trackController.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
-import {
-  createTrackSchema,
-  updateTrackSchema,
-} from '../validations/trackValidation.js';
+import { createTrackSchema, updateTrackSchema } from '../validations/trackValidation.js';
 
 const router = express.Router();
 
 // Routes de base
 router.get('/', trackController.getAllTracks);
 router.get('/:id', trackController.getTrackById);
-router.post(
-  '/',
-  validateRequest(createTrackSchema),
-  trackController.createTrack,
-);
-router.put(
-  '/:id',
-  validateRequest(updateTrackSchema),
-  trackController.updateTrack,
-);
+router.post('/', validateRequest(createTrackSchema), trackController.createTrack);
+router.put('/:id', validateRequest(updateTrackSchema), trackController.updateTrack);
 router.delete('/:id', trackController.deleteTrack);
 
 // Routes de filtrage et tri dynamiques

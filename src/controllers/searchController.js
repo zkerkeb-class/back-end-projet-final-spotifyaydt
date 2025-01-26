@@ -103,10 +103,7 @@ export const getItems = async (req, res) => {
     const sort = { [sortBy]: sortOrder === 'asc' ? 1 : -1 };
 
     // Requête principale
-    let query = Model.find(filter)
-      .skip(skip)
-      .limit(parseInt(limit, 10))
-      .sort(sort);
+    let query = Model.find(filter).skip(skip).limit(parseInt(limit, 10)).sort(sort);
 
     // Ajouter le populate en fonction du modèle
     if (model === 'Track') {

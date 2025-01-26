@@ -32,9 +32,7 @@ export const getAlbumById = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedAlbum)); // Retourne les données du cache
     }
 
-    const result = await Album.findById(id)
-      .populate('artist')
-      .populate('tracks');
+    const result = await Album.findById(id).populate('artist').populate('tracks');
     if (!result) {
       return res.status(404).json({ message: 'Album non trouvé' });
     }

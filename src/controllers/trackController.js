@@ -116,23 +116,17 @@ export const searchTracks = async (req, res) => {
     const tracks = await Track.find(query)
       .populate({
         path: 'artist',
-        match: artistName
-          ? { name: { $regex: artistName, $options: 'i' } }
-          : {},
+        match: artistName ? { name: { $regex: artistName, $options: 'i' } } : {},
         select: 'name',
       })
       .populate({
         path: 'album',
-        match: albumTitle
-          ? { title: { $regex: albumTitle, $options: 'i' } }
-          : {}, // Recherche sur le titre de l'album
+        match: albumTitle ? { title: { $regex: albumTitle, $options: 'i' } } : {}, // Recherche sur le titre de l'album
         select: 'title', // On limite les champs renvoyés
       });
 
     // Filtrer les résultats si un artiste ou un album ne correspond pas
-    const filteredTracks = tracks.filter(
-      (track) => track.artist && track.album,
-    );
+    const filteredTracks = tracks.filter((track) => track.artist && track.album);
 
     res.status(200).json(filteredTracks);
   } catch (error) {

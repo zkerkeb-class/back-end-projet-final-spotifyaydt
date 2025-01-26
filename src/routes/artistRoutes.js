@@ -9,10 +9,7 @@ import {
   getArtistsSortedByName,
 } from '../controllers/artistController.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
-import {
-  createArtistSchema,
-  updateArtistSchema,
-} from '../validations/artistValidation.js';
+import { createArtistSchema, updateArtistSchema } from '../validations/artistValidation.js';
 
 const router = express.Router();
 

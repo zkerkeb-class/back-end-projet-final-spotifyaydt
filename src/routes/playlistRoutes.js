@@ -8,10 +8,7 @@ import {
   getPlaylistsSortedByTrackCount,
 } from '../controllers/playlistController.js';
 import { validateRequest } from '../middlewares/validateRequest.js';
-import {
-  createPlaylistSchema,
-  updatePlaylistSchema,
-} from '../validations/playlistValidation.js';
+import { createPlaylistSchema, updatePlaylistSchema } from '../validations/playlistValidation.js';
 
 const router = express.Router();
 

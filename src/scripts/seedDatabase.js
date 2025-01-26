@@ -1,9 +1,5 @@
-import fs from 'fs';
-import path from 'path';
 import logger from '../config/logger.js';
-import * as musicMetadata from 'music-metadata';
 import { faker } from '@faker-js/faker';
-import { connectToDb } from '../config/db.js';
 import Artist from '../models/Artist.js';
 import Album from '../models/Album.js';
 import Track from '../models/Track.js';
@@ -35,7 +31,7 @@ const createAlbum = async (albumTitle, artistes) => {
     artistes.map(async (artisteName) => {
       const artiste = await createArtiste(artisteName);
       return artiste._id;
-    }),
+    })
   );
 
   // Si tu as un champ `artist` unique dans Album (et non `artistes`)
@@ -58,7 +54,7 @@ const createAlbum = async (albumTitle, artistes) => {
   }
 
   return album;
-}
+};
 
 // Fonction pour générer une piste audio
 async function createFakeTrack(album, artist) {
@@ -97,7 +93,7 @@ async function createFakePlaylist(tracks) {
 
 // Fonction principale pour générer les données factices
 async function seedDatabase() {
-  console.log('🔄 Démarrage du peuplement de la base de données...');
+  logger.info('🔄 Démarrage du peuplement de la base de données...');
 
   // Nettoyer les collections existantes
   await Artist.deleteMany({});
@@ -110,12 +106,12 @@ async function seedDatabase() {
 
   // Générer des artistes et leurs albums
   for (let i = 0; i < 10; i++) {
-    const artist = await createFakeArtist();
+    const artist = await createArtiste();
     artists.push(artist);
 
     // Pour chaque artiste, créer quelques albums
     for (let j = 0; j < 3; j++) {
-      const album = await createFakeAlbum(artist);
+      const album = await createAlbum(artist);
 
       // Pour chaque album, créer quelques pistes audio
       for (let k = 0; k < 5; k++) {
@@ -130,12 +126,12 @@ async function seedDatabase() {
     await createFakePlaylist(allTracks);
   }
 
-  console.log('✅ Base de données peuplée avec succès.');
+  logger.info('✅ Base de données peuplée avec succès.');
   disconnect();
 }
 
 // Lancer le processus de seeding
 seedDatabase().catch((err) => {
-  console.error('❌ Erreur lors du peuplement de la base de données :', err);
+  logger.error('❌ Erreur lors du peuplement de la base de données :', err);
   disconnect();
 });
