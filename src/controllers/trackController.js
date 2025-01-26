@@ -1,5 +1,7 @@
 import redisClient from '../config/redis.js';
 import Track from '../models/Track.js';
+import { s3Client, S3_CONFIG, generateS3Key } from '../config/s3.js';
+import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 // Récupérer toutes les pistes audio avec cache
 export const getAllTracks = async (req, res) => {
@@ -58,11 +60,43 @@ const invalidateTrackCache = async (id = null) => {
 // Créer une nouvelle piste audio
 export const createTrack = async (req, res) => {
   try {
-    const track = new Track(req.body);
+    const { file } = req;
+    if (!file) {
+      return res.status(400).json({ message: 'Aucun fichier audio na été fourni' });
+    }
+
+    // Générer une clé unique pour S3
+    const s3Key = generateS3Key('tracks', file.originalname);
+
+    // Configurer le upload vers S3
+    const uploadParams = {
+      Bucket: S3_CONFIG.bucketName,
+      Key: s3Key,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+    };
+
+    // Upload le fichier vers S3
+    await s3Client.send(new PutObjectCommand(uploadParams));
+
+    // Générer l'URL CloudFront en s'assurant qu'il n'y a pas de double slash
+    const cloudfrontDomain = process.env.CLOUDFRONT_URL.replace(/\/+$/, ''); // Enlève les slashes à la fin
+    const cloudfrontUrl = `${cloudfrontDomain}/${s3Key.replace(/^\/+/, '')}`; // Enlève les slashes au début de s3Key
+
+    // Créer l'objet Track avec l'URL du fichier
+    const trackData = {
+      ...req.body,
+      audioUrl: cloudfrontUrl,
+      s3Key: s3Key,
+    };
+
+    const track = new Track(trackData);
     const savedTrack = await track.save();
-    await invalidateTrackCache(); // Invalide le cache global des pistes
+    await invalidateTrackCache();
+
     res.status(201).json(savedTrack);
   } catch (error) {
+    logger.error('Erreur lors de la création de la piste:', error);
     res.status(400).json({ message: error.message });
   }
 };
@@ -87,11 +121,23 @@ export const updateTrack = async (req, res) => {
 // Supprimer une piste audio
 export const deleteTrack = async (req, res) => {
   try {
-    const deletedTrack = await Track.findByIdAndDelete(req.params.id);
-    if (!deletedTrack) {
+    const track = await Track.findById(req.params.id);
+    if (!track) {
       return res.status(404).json({ message: 'Piste audio non trouvée' });
     }
-    await invalidateTrackCache(req.params.id); // Invalide le cache de cette piste et le cache global
+
+    // Supprimer le fichier de S3 si une clé S3 existe
+    if (track.s3Key) {
+      const deleteParams = {
+        Bucket: S3_CONFIG.bucketName,
+        Key: track.s3Key,
+      };
+      await s3Client.send(new DeleteObjectCommand(deleteParams));
+    }
+
+    await Track.findByIdAndDelete(req.params.id);
+    await invalidateTrackCache(req.params.id);
+
     res.status(200).json({ message: 'Piste audio supprimée avec succès' });
   } catch (error) {
     res.status(500).json({ message: error.message });

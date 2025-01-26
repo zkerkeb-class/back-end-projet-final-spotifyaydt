@@ -27,8 +27,12 @@ const trackSchema = new Schema(
       type: Number, // Durée en secondes
       required: true,
     },
-    filePath: {
-      type: String, // Chemin vers le fichier audio
+    audioUrl: {
+      type: String,
+      required: true,
+    },
+    s3Key: {
+      type: String,
       required: true,
     },
     listens: {

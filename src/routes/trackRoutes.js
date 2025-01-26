@@ -1,22 +1,29 @@
 import express from 'express';
-import * as trackController from '../controllers/trackController.js';
-import { validateRequest } from '../middlewares/validateRequest.js';
-import { createTrackSchema, updateTrackSchema } from '../validations/trackValidation.js';
+import { validateTrack } from '../validations/trackValidation.js';
+import { uploadAudio, handleMulterError } from '../middlewares/uploadMiddleware.js';
+import {
+  getAllTracks,
+  getTrackById,
+  createTrack,
+  updateTrack,
+  deleteTrack,
+  searchTracks,
+  filterTracks,
+  sortTracks,
+} from '../controllers/trackController.js';
 
 const router = express.Router();
 
-// Routes de base
-router.get('/', trackController.getAllTracks);
-router.get('/:id', trackController.getTrackById);
-router.post('/', validateRequest(createTrackSchema), trackController.createTrack);
-router.put('/:id', validateRequest(updateTrackSchema), trackController.updateTrack);
-router.delete('/:id', trackController.deleteTrack);
+// Routes publiques
+router.get('/', getAllTracks);
+router.get('/search', searchTracks);
+router.get('/filter/:filterType/:filterValue', filterTracks);
+router.get('/sort/:sortBy/:order?', sortTracks);
+router.get('/:id', getTrackById);
 
-// Routes de filtrage et tri dynamiques
-router.get('/filter/:filterType/:filterValue', trackController.filterTracks);
-router.get('/sort/:sortBy/:order?', trackController.sortTracks);
-
-// Route de recherche
-router.get('/search', trackController.searchTracks);
+// Routes protégées nécessitant une authentification
+router.post('/', uploadAudio, handleMulterError, validateTrack, createTrack);
+router.put('/:id', validateTrack, updateTrack);
+router.delete('/:id', deleteTrack);
 
 export default router;
