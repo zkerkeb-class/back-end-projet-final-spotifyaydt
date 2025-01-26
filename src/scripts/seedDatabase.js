@@ -87,7 +87,7 @@ async function createFakePlaylist(tracks) {
     name: faker.music.playlistName(),
     tracks: faker.helpers.arrayElements(
       tracks.map((t) => t._id),
-      10,
+      10
     ), // Sélectionne 10 pistes au hasard
   });
 

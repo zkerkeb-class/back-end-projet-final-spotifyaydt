@@ -70,11 +70,10 @@ export const createPlaylist = async (req, res) => {
 // Mettre à jour une playlist
 export const updatePlaylist = async (req, res) => {
   try {
-    const updatedPlaylist = await Playlist.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true },
-    ).populate('tracks');
+    const updatedPlaylist = await Playlist.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate('tracks');
     if (!updatedPlaylist) {
       return res.status(404).json({ message: 'Playlist non trouvée' });
     }

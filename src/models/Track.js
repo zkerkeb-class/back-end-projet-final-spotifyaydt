@@ -42,7 +42,7 @@ const trackSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 export default model('Track', trackSchema);

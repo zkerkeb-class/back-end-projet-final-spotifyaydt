@@ -1,4 +1,4 @@
-import { set, connect } from 'mongoose';
+import mongoose from 'mongoose';
 import { commonConfig } from './env.js';
 const logger = require('./logger');
 

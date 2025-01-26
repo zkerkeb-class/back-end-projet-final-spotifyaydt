@@ -1,13 +1,26 @@
 import express, { json } from 'express';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
+import cors from 'cors';
 import connectDB from './src/config/db.js';
 import routes from './src/routes/index.js';
 import redisClient from './src/config/redis.js'; // Importez le client Redis
 import setupSwagger from './src/config/swagger.js'; // Importez la configuration Swagger
 import logger from './src/config/logger.js';
+import metricsRoutes from './src/routes/metricsRoutes.js';
 
 const app = express();
+
+// Configuration CORS - à ajouter avant les autres middlewares
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // URL de votre application React
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Nécessaire si vous utilisez des sessions/cookies
+  })
+);
+
 app.use(json());
 
 // Configuration de la session avec Redis
@@ -17,17 +30,17 @@ app.use(
     secret: process.env.dev.SESSION_SECRET, // à remplacer par un secret sécurisé
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, httpOnly: true, maxAge: 3600000 }, // 1 heure
-  }),
+    cookie: { secure: false, httpOnly: true, maxAge: 3600000 },
+  })
 );
 
 // Connexion à la base de données
 connectDB();
 
 // Utilisation des routes
-app.use('/api', routes); // Utilisez le fichier de routes principal
+app.use('/api', routes);
 
-setupSwagger(app); // Utilisez la configuration Swagger
+setupSwagger(app);
 
 // Exemple de route pour tester les sessions
 app.get('/session', (req, res) => {
@@ -44,6 +57,8 @@ app.get('/session', (req, res) => {
 app.get('/', (req, res) => {
   res.send('Hello, this is the API!');
 });
+
+app.use('/api/metrics', metricsRoutes);
 
 // Démarrer le serveur
 const PORT = process.env.PORT || 5000;

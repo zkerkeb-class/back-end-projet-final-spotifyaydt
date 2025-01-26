@@ -34,6 +34,5 @@ const commonConfig = {
   password: MONGODB_PASSWORD,
   cluster: MONGODB_CLUSTER,
 };
-
 // Export de commonConfig
 export { commonConfig };

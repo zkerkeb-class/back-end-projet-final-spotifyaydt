@@ -70,11 +70,10 @@ export const createTrack = async (req, res) => {
 // Mettre à jour une piste audio
 export const updateTrack = async (req, res) => {
   try {
-    const updatedTrack = await Track.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true },
-    ).populate('artist album');
+    const updatedTrack = await Track.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate('artist album');
     if (!updatedTrack) {
       return res.status(404).json({ message: 'Piste audio non trouvée' });
     }

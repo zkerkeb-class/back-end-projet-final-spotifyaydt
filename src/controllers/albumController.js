@@ -75,11 +75,10 @@ export const createAlbum = async (req, res) => {
 // Mettre à jour un album
 export const updateAlbum = async (req, res) => {
   try {
-    const updatedAlbum = await Album.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true },
-    ).populate('artist tracks');
+    const updatedAlbum = await Album.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate('artist tracks');
     if (!updatedAlbum) {
       return res.status(404).json({ message: 'Album non trouvé' });
     }

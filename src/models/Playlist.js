@@ -19,7 +19,7 @@ const playlistSchema = new Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 // Exportation du modèle
