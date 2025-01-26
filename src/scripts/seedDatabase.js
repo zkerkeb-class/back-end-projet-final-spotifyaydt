@@ -1,122 +1,187 @@
-import { disconnect } from 'mongoose';
-import connectDB from '../config/db.js';
+import fs from 'fs';
+import path from 'path';
+import logger from '../config/logger.js';
+import * as musicMetadata from 'music-metadata';
 import { faker } from '@faker-js/faker';
+import { connectToDb } from '../config/db.js';
 import Artist from '../models/Artist.js';
 import Album from '../models/Album.js';
 import Track from '../models/Track.js';
-import Playlist from '../models/Playlist.js';
 
 // Connexion à MongoDB
-connectDB();
+connectToDb()
+  .then(logger.info('🔄 Connexion à la base de données établie avec succès.'))
+  .catch((err) => {
+    logger.error('❌ Erreur de connexion à la base de données :', err);
+  });
+
+const AUDIO_DIRECTORY = './public/audio_files';
+
+const extractMetadata = async (filePath) => {
+  try {
+    const metadata = await musicMetadata.parseFile(filePath);
+    const title = metadata.common.title || faker.lorem.words(3);
+
+    // Traitement des artistes (gestion des virgules)
+    const artists = metadata.common.artist
+      ? metadata.common.artist.split(',').map((artist) => artist.trim())
+      : [faker.person.fullName()]; // Remplacement par un nom d'artiste généré
+
+    const duration =
+      Math.round(metadata.format.duration) ||
+      faker.number.int({ min: 120, max: 300 }); // Durée générée si absente
+
+    return { title, artists, duration };
+  } catch (error) {
+    logger.error(
+      `Erreur d'extraction des métadonnées pour ${filePath}: ${error.message}`,
+    );
+    return null;
+  }
+};
 
 // Fonction pour générer un artiste
-async function createFakeArtist() {
-  const artist = new Artist({
-    name: faker.person.fullName(),
-    genre: faker.music.genre(),
-    description: faker.lorem.paragraph(),
-    popularity: faker.number.int({ min: 0, max: 100 }),
+const createArtiste = async (artisteName) => {
+  let artiste = await Artist.findOne({ name: artisteName });
+  if (!artiste) {
+    artiste = await Artist.create({
+      name: artisteName,
+      genre: faker.music.genre(), // Utilisation de Faker pour un genre musical
+      description: faker.lorem.paragraph(),
+      popularity: faker.number.int({ min: 0, max: 100 }),
+    });
+    logger.info(`Artiste créé : ${artisteName}`);
+  } else {
+    logger.info(`Artiste trouvé : ${artisteName}`);
+  }
+  return artiste;
+};
+
+const createAlbum = async (albumTitle, artistes) => {
+  // Créer ou récupérer les artistes associés à l'album
+  const artistesId = await Promise.all(
+    artistes.map(async (artisteName) => {
+      const artiste = await createArtiste(artisteName);
+      return artiste._id;
+    }),
+  );
+
+  // Si tu as un champ `artist` unique dans Album (et non `artistes`)
+  let album = await Album.findOne({
+    title: albumTitle,
+    artist: artistesId[0], // Associer un seul artiste (ici le premier de la liste)
   });
 
-  await artist.save();
-  return artist;
-}
-
-// Fonction pour générer un album
-async function createFakeAlbum(artist) {
-  const album = new Album({
-    title: faker.music.album(),
-    artist: artist._id,
-    genre: artist.genre, // Genre aligné avec l'artiste
-    releaseDate: faker.date.past(5),
-    coverImage: faker.image.url(),
-  });
-
-  await album.save();
-
-  // Ajouter cet album à l'artiste
-  artist.albums.push(album._id);
-  await artist.save();
+  if (!album) {
+    album = await Album.create({
+      title: albumTitle,
+      releaseDate: faker.date.past(30).getFullYear(),
+      artist: artistesId[0], // Associer un seul artiste (pas un tableau)
+      genre: faker.music.genre(),
+      coverImage: 'https://source.unsplash.com/random/800x600',
+    });
+    logger.info(`Album créé : ${albumTitle}`);
+  } else {
+    logger.info(`Album trouvé : ${albumTitle}`);
+  }
 
   return album;
-}
+};
 
-// Fonction pour générer une piste audio
-async function createFakeTrack(album, artist) {
-  const track = new Track({
-    title: faker.music.songName(),
-    artist: artist._id,
-    album: album._id,
-    genre: album.genre, // Genre aligné avec l'album
-    duration: faker.number.int({ min: 120, max: 300 }), // durée en secondes
-    filePath: faker.internet.url(),
-    listens: faker.number.int({ min: 0, max: 1000 }),
-  });
+const createAudio = async (audioData, albumId, artistes) => {
+  if (!artistes || artistes.length === 0) {
+    throw new Error('Au moins un artiste doit être spécifié.');
+  }
 
-  await track.save();
+  // Sélectionner le premier artiste dans la liste (par exemple)
+  const artist = await Artist.findOne({ name: artistes[0] });
+  if (!artist) {
+    throw new Error(`Aucun artiste trouvé pour ${artistes[0]}`);
+  }
 
-  // Ajouter cette piste à l'album
-  album.tracks.push(track._id);
-  await album.save();
+  let audio = await Track.findOne({ filePath: audioData.filePath });
+  if (!audio) {
+    // Ajout d'une vérification pour l'artiste et l'album
+    if (!albumId) {
+      throw new Error(
+        `Aucun album trouvé pour le fichier ${audioData.filePath}`,
+      );
+    }
 
-  return track;
-}
+    audio = await Track.create({
+      title: audioData.title,
+      artist: artist._id, // Utilisation de l'ID de l'artiste trouvé
+      album: albumId, // ID de l'album
+      genre: faker.music.genre(),
+      duration: audioData.duration,
+      filePath: audioData.filePath,
+      listens: faker.number.int({ min: 0, max: 1000 }),
+      releaseDate: new Date(), // Date actuelle
+    });
+    logger.info(`Audio créé : ${audioData.title}`);
+  } else {
+    logger.info(`Audio trouvé : ${audioData.title}`);
+  }
+  return audio;
+};
 
-// Fonction pour générer une playlist
-async function createFakePlaylist(tracks) {
-  const playlist = new Playlist({
-    name: faker.music.playlistName(),
-    tracks: faker.helpers.arrayElements(
-      tracks.map((t) => t._id),
-      10,
-    ), // Sélectionne 10 pistes au hasard
-  });
+// Fonction pour traiter un fichier audio
+const processAudioFile = async (filePath) => {
+  try {
+    // Extraire les métadonnées du fichier
+    const metadata = await extractMetadata(filePath);
+    if (!metadata) {
+      return;
+    }
 
-  await playlist.save();
-  return playlist;
-}
+    const { title, artists, duration } = metadata;
 
-// Fonction principale pour générer les données factices
-async function seedDatabase() {
-  console.log('🔄 Démarrage du peuplement de la base de données...');
+    // 1. Créer ou récupérer l'album avec les artistes
+    const albumTitle = faker.lorem.words(2);
+    const album = await createAlbum(albumTitle, artists);
 
-  // Nettoyer les collections existantes
-  await Artist.deleteMany({});
-  await Album.deleteMany({});
-  await Track.deleteMany({});
-  await Playlist.deleteMany({});
+    // 2. Créer ou récupérer l'Audio et l'associer à l'album
+    await createAudio({ title, duration, filePath }, album._id, artists);
 
-  const allTracks = [];
-  const artists = [];
+    logger.info(
+      `Fichier audio traité : ${title} - Artistes : ${artists.join(', ')}`,
+    );
+  } catch (error) {
+    logger.error(
+      `Erreur lors du traitement du fichier ${filePath}: ${error.message}`,
+    );
+  }
+};
 
-  // Générer des artistes et leurs albums
-  for (let i = 0; i < 10; i++) {
-    const artist = await createFakeArtist();
-    artists.push(artist);
+// Fonction principale pour parcourir les fichiers audio
+const processAudioFiles = async () => {
+  try {
+    const files = fs.readdirSync(AUDIO_DIRECTORY);
 
-    // Pour chaque artiste, créer quelques albums
-    for (let j = 0; j < 3; j++) {
-      const album = await createFakeAlbum(artist);
+    // Parcours de chaque fichier dans le répertoire
+    for (const file of files) {
+      const filePath = path.join(AUDIO_DIRECTORY, file);
 
-      // Pour chaque album, créer quelques pistes audio
-      for (let k = 0; k < 5; k++) {
-        const track = await createFakeTrack(album, artist);
-        allTracks.push(track);
+      // Vérification si c'est un fichier audio
+      if (
+        filePath.endsWith('.mp3') ||
+        filePath.endsWith('.wav') ||
+        filePath.endsWith('.flac')
+      ) {
+        await processAudioFile(filePath);
+      } else {
+        logger.warn(`Fichier ignoré (non audio) : ${filePath}`);
       }
     }
+
+    logger.info('Traitement des fichiers audio terminé.');
+  } catch (error) {
+    logger.error('Erreur lors du parcours des fichiers audio:', error.message);
+  } finally {
+    logger.info('🔌 Déconnexion de la base de données.');
+    process.exit(0);
   }
+};
 
-  // Générer des playlists avec les pistes créées
-  for (let i = 0; i < 5; i++) {
-    await createFakePlaylist(allTracks);
-  }
-
-  console.log('✅ Base de données peuplée avec succès.');
-  disconnect();
-}
-
-// Lancer le processus de seeding
-seedDatabase().catch((err) => {
-  console.error('❌ Erreur lors du peuplement de la base de données :', err);
-  disconnect();
-});
+// Lancer le processus de traitement
+processAudioFiles();

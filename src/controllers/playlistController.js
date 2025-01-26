@@ -51,7 +51,7 @@ const invalidatePlaylistCache = async (id = null) => {
     }
     await redisClient.del('playlists:all');
   } catch (error) {
-    console.error('Erreur lors de l’invalidation du cache Redis :', error);
+    logger.error('Erreur lors de l’invalidation du cache Redis :', error);
   }
 };
 

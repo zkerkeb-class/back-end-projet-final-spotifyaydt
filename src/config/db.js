@@ -1,5 +1,6 @@
 import { set, connect } from 'mongoose';
 import { commonConfig } from './env.js';
+import logger from './logger.js';
 
 const connectToDb = async () => {
   set('strictQuery', false);
@@ -7,9 +8,9 @@ const connectToDb = async () => {
     `mongodb+srv://${commonConfig.username}:${commonConfig.password}@${commonConfig.cluster}.mongodb.net/?retryWrites=true&w=majority`,
   )
     .then(() => {
-      console.log('successfully connect to database');
+      logger.info('successfully connect to database');
     })
-    .catch((err) => console.log(err));
+    .catch((err) => logger.info(err));
 };
 
-export default connectToDb;
+export { connectToDb };

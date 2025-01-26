@@ -1,0 +1,35 @@
+2025-01-14T15:41:43.310Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:41:43.312Z [[33mwarn[39m]: Fichier ignoré (non audio) : public/audio_files/Zed (ft. La Mano 1.9) - Hockey (Clip Officiel).mp4
+2025-01-14T15:41:43.312Z [[32minfo[39m]: Traitement des fichiers audio terminé.
+2025-01-14T15:44:45.207Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:44:45.224Z [[31merror[39m]: Erreur d'extraction des métadonnées pour public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: faker.name.findName is not a function
+2025-01-14T15:47:42.479Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:47:42.759Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: Cannot read properties of undefined (reading 'number')
+2025-01-14T15:49:12.161Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:49:12.746Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: faker.number.int(...) is not a function
+2025-01-14T15:50:40.645Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:50:41.029Z [[32minfo[39m]: Artiste créé : Beth Franecki
+2025-01-14T15:50:41.043Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: faker.image.imageUrl is not a function
+2025-01-14T15:51:51.794Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:51:52.226Z [[32minfo[39m]: Artiste créé : Ms. Kate White
+2025-01-14T15:51:52.248Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: Album validation failed: artist: Path `artist` is required.
+2025-01-14T15:55:59.757Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:56:00.100Z [[32minfo[39m]: Artiste créé : Frances Wolf
+2025-01-14T15:56:00.120Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: Album validation failed: artist: Path `artist` is required.
+2025-01-14T15:57:39.499Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T15:57:39.915Z [[32minfo[39m]: Artiste créé : Fernando Gerlach
+2025-01-14T15:57:39.933Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: Album validation failed: artist: Path `artist` is required.
+2025-01-14T16:00:23.475Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T16:00:23.894Z [[32minfo[39m]: Artiste créé : Dr. Dominic Grimes
+2025-01-14T16:00:23.908Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: Album validation failed: artist: Path `artist` is required.
+2025-01-14T16:01:21.908Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T16:01:22.294Z [[32minfo[39m]: Artiste créé : Robert Watsica
+2025-01-14T16:01:22.325Z [[31merror[39m]: Erreur lors du traitement du fichier public/audio_files/Zed-_ft.-La-Mano-1.9_-Hockey-_Clip-Officiel_.mp3: Album validation failed: artist: Path `artist` is required.
+2025-01-14T16:02:55.602Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T16:02:55.928Z [[32minfo[39m]: Artiste créé : May Stamm
+2025-01-14T16:02:55.980Z [[32minfo[39m]: Album créé : contego credo
+2025-01-14T16:02:56.042Z [[32minfo[39m]: Audio créé : canis circumvenio solio
+2025-01-14T16:05:09.377Z [[32minfo[39m]: 🔄 Connexion à la base de données établie avec succès.
+2025-01-14T16:05:11.965Z [[32minfo[39m]: Artiste créé : Sarah Heidenreich-Orn
+2025-01-14T16:05:12.099Z [[32minfo[39m]: Album créé : volup toties
+2025-01-14T16:05:12.121Z [[32minfo[39m]: Audio trouvé : occaecati compono demonstro

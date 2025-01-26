@@ -1,8 +1,7 @@
-// src/models/Track.js
+// src/models/Playlist.js
 import { Schema as _Schema, model } from 'mongoose';
 const Schema = _Schema;
 
-// Définition du modèle "Piste Audio"
 const trackSchema = new Schema(
   {
     title: {
@@ -13,7 +12,7 @@ const trackSchema = new Schema(
     artist: {
       type: Schema.Types.ObjectId,
       ref: 'Artist', // Relation avec l'artiste
-      required: true,
+      required: true, // Champ obligatoire
     },
     album: {
       type: Schema.Types.ObjectId,
@@ -46,5 +45,4 @@ const trackSchema = new Schema(
   },
 );
 
-// Exportation du modèle
 export default model('Track', trackSchema);

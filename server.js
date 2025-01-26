@@ -5,6 +5,7 @@ import connectDB from './src/config/db.js';
 import routes from './src/routes/index.js';
 import redisClient from './src/config/redis.js'; // Importez le client Redis
 import setupSwagger from './src/config/swagger.js'; // Importez la configuration Swagger
+import logger from './src/config/logger.js';
 
 const app = express();
 app.use(json());
@@ -13,7 +14,7 @@ app.use(json());
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
-    secret: 'your-secret-key', // à remplacer par un secret sécurisé
+    secret: process.env.dev.SESSION_SECRET, // à remplacer par un secret sécurisé
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, httpOnly: true, maxAge: 3600000 }, // 1 heure
@@ -47,5 +48,5 @@ app.get('/', (req, res) => {
 // Démarrer le serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });

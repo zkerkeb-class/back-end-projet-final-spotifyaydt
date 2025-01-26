@@ -53,7 +53,7 @@ const invalidateAlbumCache = async (id = null) => {
     }
     await redisClient.del('albums:all');
   } catch (error) {
-    console.error('Erreur lors de l’invalidation du cache Redis :', error);
+    logger.error('Erreur lors de l’invalidation du cache Redis :', error);
   }
 };
 
