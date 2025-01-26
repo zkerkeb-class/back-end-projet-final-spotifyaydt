@@ -1,3 +1,4 @@
+import logger from '../config/logger.js';
 import redisClient from '../config/redis.js';
 import Artist from '../models/Artist.js';
 
@@ -63,7 +64,7 @@ const invalidateArtistCache = async (id = null) => {
     }
     await redisClient.del('artists:all');
   } catch (error) {
-    console.error('Erreur lors de l’invalidation du cache Redis :', error);
+    logger.error('Erreur lors de l’invalidation du cache Redis :', error);
   }
 };
 

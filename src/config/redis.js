@@ -1,16 +1,17 @@
 import { createClient } from '@redis/client';
+const logger = require('./logger');
 
 const redisClient = createClient({
-  url: 'redis://127.0.0.1:6379', // Utilisez l'URL pour spécifier l'adresse et le port
+  url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
 });
 
 redisClient
   .connect()
   .then(() => {
-    console.log('Connecté à Redis');
+    logger.info('Connected to Redis');
   })
   .catch((err) => {
-    console.error('Erreur de connexion à Redis:', err);
+    logger.error('Redis connection error:', err);
   });
 
 export default redisClient;

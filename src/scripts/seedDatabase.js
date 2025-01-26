@@ -5,9 +5,18 @@ import Artist from '../models/Artist.js';
 import Album from '../models/Album.js';
 import Track from '../models/Track.js';
 import Playlist from '../models/Playlist.js';
+const logger = require('../config/logger');
 
 // Connexion à MongoDB
 connectDB();
+
+// Ajouter des constantes pour la configuration
+const SEED_CONFIG = {
+  ARTISTS_COUNT: 10,
+  ALBUMS_PER_ARTIST: 3,
+  TRACKS_PER_ALBUM: 5,
+  PLAYLISTS_COUNT: 5,
+};
 
 // Fonction pour générer un artiste
 async function createFakeArtist() {
@@ -51,6 +60,7 @@ async function createFakeTrack(album, artist) {
     duration: faker.number.int({ min: 120, max: 300 }), // durée en secondes
     filePath: faker.internet.url(),
     listens: faker.number.int({ min: 0, max: 1000 }),
+    releaseDate: faker.date.between(album.releaseDate, new Date()),
   });
 
   await track.save();
@@ -78,7 +88,7 @@ async function createFakePlaylist(tracks) {
 
 // Fonction principale pour générer les données factices
 async function seedDatabase() {
-  console.log('🔄 Démarrage du peuplement de la base de données...');
+  logger.info('🔄 Démarrage du peuplement de la base de données...');
 
   // Nettoyer les collections existantes
   await Artist.deleteMany({});
@@ -90,16 +100,16 @@ async function seedDatabase() {
   const artists = [];
 
   // Générer des artistes et leurs albums
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < SEED_CONFIG.ARTISTS_COUNT; i++) {
     const artist = await createFakeArtist();
     artists.push(artist);
 
     // Pour chaque artiste, créer quelques albums
-    for (let j = 0; j < 3; j++) {
+    for (let j = 0; j < SEED_CONFIG.ALBUMS_PER_ARTIST; j++) {
       const album = await createFakeAlbum(artist);
 
       // Pour chaque album, créer quelques pistes audio
-      for (let k = 0; k < 5; k++) {
+      for (let k = 0; k < SEED_CONFIG.TRACKS_PER_ALBUM; k++) {
         const track = await createFakeTrack(album, artist);
         allTracks.push(track);
       }
@@ -107,16 +117,22 @@ async function seedDatabase() {
   }
 
   // Générer des playlists avec les pistes créées
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < SEED_CONFIG.PLAYLISTS_COUNT; i++) {
     await createFakePlaylist(allTracks);
   }
 
-  console.log('✅ Base de données peuplée avec succès.');
+  logger.info('✅ Base de données peuplée avec succès.');
   disconnect();
 }
 
 // Lancer le processus de seeding
 seedDatabase().catch((err) => {
-  console.error('❌ Erreur lors du peuplement de la base de données :', err);
+  logger.error('❌ Erreur lors du peuplement de la base de données :', err);
   disconnect();
+});
+
+// Améliorer la gestion des erreurs
+process.on('unhandledRejection', (error) => {
+  logger.error('Unhandled promise rejection:', error);
+  process.exit(1);
 });
