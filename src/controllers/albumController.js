@@ -1,4 +1,5 @@
 import redisClient from '../config/redis.js';
+import logger from '../config/logger.js';
 import Album from '../models/Album.js';
 
 // Récupérer tous les albums avec cache

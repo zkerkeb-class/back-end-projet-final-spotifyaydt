@@ -41,3 +41,9 @@
 2025-01-26T14:27:28.927Z [[32minfo[39m]: Server running on port 3001
 2025-01-26T14:27:28.928Z [[32minfo[39m]: Redis connecté avec succès
 2025-01-26T14:27:28.930Z [[32minfo[39m]: Connected to Redis
+2025-01-26T14:29:53.618Z [[31merror[39m]: Database connection error: set is not defined
+2025-01-26T14:29:53.628Z [[32minfo[39m]: Server running on port 3001
+2025-01-26T14:29:53.629Z [[32minfo[39m]: Redis connecté avec succès
+2025-01-26T14:29:53.633Z [[32minfo[39m]: Connected to Redis
+2025-01-26T14:30:16.059Z [[31merror[39m]: Error: Operation `albums.find()` buffering timed out after 10000ms
+2025-01-26T14:30:34.504Z [[31merror[39m]: Error: Cast to ObjectId failed for value "1" (type string) at path "_id" for model "Album"
