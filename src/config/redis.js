@@ -1,5 +1,5 @@
 import { createClient } from '@redis/client';
-const logger = require('./logger');
+import logger from './logger';
 
 const redisClient = createClient({
   url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',

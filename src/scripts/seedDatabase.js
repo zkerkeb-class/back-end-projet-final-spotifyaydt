@@ -1,51 +1,61 @@
-import { disconnect } from 'mongoose';
-import connectDB from '../config/db.js';
+import fs from 'fs';
+import path from 'path';
+import logger from '../config/logger.js';
+import * as musicMetadata from 'music-metadata';
 import { faker } from '@faker-js/faker';
+import { connectToDb } from '../config/db.js';
 import Artist from '../models/Artist.js';
 import Album from '../models/Album.js';
 import Track from '../models/Track.js';
 import Playlist from '../models/Playlist.js';
-const logger = require('../config/logger');
 
 // Connexion à MongoDB
 connectDB();
 
-// Ajouter des constantes pour la configuration
-const SEED_CONFIG = {
-  ARTISTS_COUNT: 10,
-  ALBUMS_PER_ARTIST: 3,
-  TRACKS_PER_ALBUM: 5,
-  PLAYLISTS_COUNT: 5,
+// Fonction pour générer un artiste
+const createArtiste = async (artisteName) => {
+  let artiste = await Artist.findOne({ name: artisteName });
+  if (!artiste) {
+    artiste = await Artist.create({
+      name: artisteName,
+      genre: faker.music.genre(), // Utilisation de Faker pour un genre musical
+      description: faker.lorem.paragraph(),
+      popularity: faker.number.int({ min: 0, max: 100 }),
+    });
+    logger.info(`Artiste créé : ${artisteName}`);
+  } else {
+    logger.info(`Artiste trouvé : ${artisteName}`);
+  }
+  return artiste;
 };
 
-// Fonction pour générer un artiste
-async function createFakeArtist() {
-  const artist = new Artist({
-    name: faker.person.fullName(),
-    genre: faker.music.genre(),
-    description: faker.lorem.paragraph(),
-    popularity: faker.number.int({ min: 0, max: 100 }),
+const createAlbum = async (albumTitle, artistes) => {
+  // Créer ou récupérer les artistes associés à l'album
+  const artistesId = await Promise.all(
+    artistes.map(async (artisteName) => {
+      const artiste = await createArtiste(artisteName);
+      return artiste._id;
+    }),
+  );
+
+  // Si tu as un champ `artist` unique dans Album (et non `artistes`)
+  let album = await Album.findOne({
+    title: albumTitle,
+    artist: artistesId[0], // Associer un seul artiste (ici le premier de la liste)
   });
 
-  await artist.save();
-  return artist;
-}
-
-// Fonction pour générer un album
-async function createFakeAlbum(artist) {
-  const album = new Album({
-    title: faker.music.album(),
-    artist: artist._id,
-    genre: artist.genre, // Genre aligné avec l'artiste
-    releaseDate: faker.date.past(5),
-    coverImage: faker.image.url(),
-  });
-
-  await album.save();
-
-  // Ajouter cet album à l'artiste
-  artist.albums.push(album._id);
-  await artist.save();
+  if (!album) {
+    album = await Album.create({
+      title: albumTitle,
+      releaseDate: faker.date.past(30).getFullYear(),
+      artist: artistesId[0], // Associer un seul artiste (pas un tableau)
+      genre: faker.music.genre(),
+      coverImage: 'https://source.unsplash.com/random/800x600',
+    });
+    logger.info(`Album créé : ${albumTitle}`);
+  } else {
+    logger.info(`Album trouvé : ${albumTitle}`);
+  }
 
   return album;
 }
@@ -60,7 +70,6 @@ async function createFakeTrack(album, artist) {
     duration: faker.number.int({ min: 120, max: 300 }), // durée en secondes
     filePath: faker.internet.url(),
     listens: faker.number.int({ min: 0, max: 1000 }),
-    releaseDate: faker.date.between(album.releaseDate, new Date()),
   });
 
   await track.save();
@@ -88,7 +97,7 @@ async function createFakePlaylist(tracks) {
 
 // Fonction principale pour générer les données factices
 async function seedDatabase() {
-  logger.info('🔄 Démarrage du peuplement de la base de données...');
+  console.log('🔄 Démarrage du peuplement de la base de données...');
 
   // Nettoyer les collections existantes
   await Artist.deleteMany({});
@@ -100,16 +109,16 @@ async function seedDatabase() {
   const artists = [];
 
   // Générer des artistes et leurs albums
-  for (let i = 0; i < SEED_CONFIG.ARTISTS_COUNT; i++) {
+  for (let i = 0; i < 10; i++) {
     const artist = await createFakeArtist();
     artists.push(artist);
 
     // Pour chaque artiste, créer quelques albums
-    for (let j = 0; j < SEED_CONFIG.ALBUMS_PER_ARTIST; j++) {
+    for (let j = 0; j < 3; j++) {
       const album = await createFakeAlbum(artist);
 
       // Pour chaque album, créer quelques pistes audio
-      for (let k = 0; k < SEED_CONFIG.TRACKS_PER_ALBUM; k++) {
+      for (let k = 0; k < 5; k++) {
         const track = await createFakeTrack(album, artist);
         allTracks.push(track);
       }
@@ -117,22 +126,16 @@ async function seedDatabase() {
   }
 
   // Générer des playlists avec les pistes créées
-  for (let i = 0; i < SEED_CONFIG.PLAYLISTS_COUNT; i++) {
+  for (let i = 0; i < 5; i++) {
     await createFakePlaylist(allTracks);
   }
 
-  logger.info('✅ Base de données peuplée avec succès.');
+  console.log('✅ Base de données peuplée avec succès.');
   disconnect();
 }
 
 // Lancer le processus de seeding
 seedDatabase().catch((err) => {
-  logger.error('❌ Erreur lors du peuplement de la base de données :', err);
+  console.error('❌ Erreur lors du peuplement de la base de données :', err);
   disconnect();
-});
-
-// Améliorer la gestion des erreurs
-process.on('unhandledRejection', (error) => {
-  logger.error('Unhandled promise rejection:', error);
-  process.exit(1);
 });
