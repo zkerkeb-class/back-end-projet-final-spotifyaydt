@@ -2,7 +2,7 @@ import redisClient from '../config/redis.js';
 import Album from '../models/Album.js';
 
 // Récupérer tous les albums avec cache
-export const getAllAlbums = async (req, res) => {
+const getAllAlbums = async (req, res) => {
   try {
     const cacheKey = 'albums:all';
     const cachedAlbums = await redisClient.get(cacheKey);
@@ -22,7 +22,7 @@ export const getAllAlbums = async (req, res) => {
 };
 
 // Récupérer un album par ID avec cache
-export const getAlbumById = async (req, res) => {
+const getAlbumById = async (req, res) => {
   try {
     const { id } = req.params;
     const cacheKey = `album:${id}`;
@@ -59,7 +59,7 @@ const invalidateAlbumCache = async (id = null) => {
 };
 
 // Créer un nouvel album (invalide le cache global des albums)
-export const createAlbum = async (req, res) => {
+const createAlbum = async (req, res) => {
   try {
     const album = new Album(req.body);
     const savedAlbum = await album.save();
@@ -71,7 +71,7 @@ export const createAlbum = async (req, res) => {
 };
 
 // Mettre à jour un album
-export const updateAlbum = async (req, res) => {
+const updateAlbum = async (req, res) => {
   try {
     const updatedAlbum = await Album.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -89,7 +89,7 @@ export const updateAlbum = async (req, res) => {
 };
 
 // Supprimer un album
-export const deleteAlbum = async (req, res) => {
+const deleteAlbum = async (req, res) => {
   try {
     const deletedAlbum = await Album.findByIdAndDelete(req.params.id);
     if (!deletedAlbum) {
@@ -102,3 +102,5 @@ export const deleteAlbum = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export default { getAllAlbums, getAlbumById, createAlbum, updateAlbum, deleteAlbum };

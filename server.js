@@ -8,7 +8,9 @@ import redisClient from './src/config/redis.js'; // Importez le client Redis
 import setupSwagger from './src/config/swagger.js'; // Importez la configuration Swagger
 import logger from './src/config/logger.js';
 import metricsRoutes from './src/routes/metricsRoutes.js';
+import dotenv from 'dotenv';
 
+dotenv.config({ path: './env.dev' });
 const app = express();
 
 // Configuration CORS - à ajouter avant les autres middlewares
@@ -27,7 +29,7 @@ app.use(json());
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
-    secret: process.env.dev.SESSION_SECRET, // à remplacer par un secret sécurisé
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false, httpOnly: true, maxAge: 3600000 },

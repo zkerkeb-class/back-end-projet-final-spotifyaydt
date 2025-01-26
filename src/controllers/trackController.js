@@ -1,5 +1,5 @@
 import redisClient from '../config/redis.js';
-const Track = require('../models/Track');
+import Track from '../models/Track.js';
 
 // Récupérer toutes les pistes audio avec cache
 export const getAllTracks = async (req, res) => {

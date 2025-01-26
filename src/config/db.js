@@ -1,5 +1,6 @@
 import { commonConfig } from './env.js';
-const logger = require('./logger');
+import logger from './logger.js'; // Importation ES Module, en supposant un export par défaut dans logger.js
+import { connect } from 'mongoose'; // Assure-toi de bien importer `connect` depuis Mongoose
 
 const connectToDb = async () => {
   try {
@@ -13,4 +14,4 @@ const connectToDb = async () => {
   }
 };
 
-export { connectToDb };
+export default connectToDb;

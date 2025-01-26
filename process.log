@@ -33,3 +33,11 @@
 2025-01-14T16:05:11.965Z [[32minfo[39m]: Artiste créé : Sarah Heidenreich-Orn
 2025-01-14T16:05:12.099Z [[32minfo[39m]: Album créé : volup toties
 2025-01-14T16:05:12.121Z [[32minfo[39m]: Audio trouvé : occaecati compono demonstro
+2025-01-26T14:26:47.208Z [[31merror[39m]: Database connection error: set is not defined
+2025-01-26T14:26:47.215Z [[32minfo[39m]: Server running on port 3001
+2025-01-26T14:26:47.216Z [[32minfo[39m]: Redis connecté avec succès
+2025-01-26T14:26:47.218Z [[32minfo[39m]: Connected to Redis
+2025-01-26T14:27:28.920Z [[31merror[39m]: Database connection error: set is not defined
+2025-01-26T14:27:28.927Z [[32minfo[39m]: Server running on port 3001
+2025-01-26T14:27:28.928Z [[32minfo[39m]: Redis connecté avec succès
+2025-01-26T14:27:28.930Z [[32minfo[39m]: Connected to Redis

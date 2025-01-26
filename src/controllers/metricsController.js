@@ -1,6 +1,6 @@
 import si from 'systeminformation';
 import Redis from 'ioredis';
-import { logger } from '../config/logger.js';
+import logger from '../config/logger.js';
 
 let requestsCount = 0;
 let lastRequestTime = Date.now();
