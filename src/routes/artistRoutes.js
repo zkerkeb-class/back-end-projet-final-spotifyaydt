@@ -7,7 +7,6 @@ import {
   deleteArtist,
   getArtistsByGenre,
   getArtistsSortedByName,
-  searchArtists,
 } from '../controllers/artistController.js';
 import { validateArtist } from '../validations/artistValidation.js';
 import {
@@ -26,6 +25,5 @@ router.put('/:id', heavyRequestRateLimiter, validateArtist, updateArtist); // Me
 router.delete('/:id', heavyRequestRateLimiter, deleteArtist); // Supprimer un artiste
 router.get('/genre/:genre', getArtistsByGenre); // Récupérer les artistes par genre
 router.get('/sort/name', getArtistsSortedByName); // Récupérer les artistes par ordre alphabétique
-router.get('/search', heavyRequestRateLimiter, searchArtists);
 
 export default router;

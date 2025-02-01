@@ -20,6 +20,84 @@ export const getAllPlaylists = async (req, res) => {
   }
 };
 
+// Rechercher des playlists (par exemple, par nom ou genre)
+export const searchPlaylists = async (req, res) => {
+  try {
+    const { query } = req.query; // Récupérer la requête de recherche (ex. ?query=rock)
+
+    if (!query) {
+      return res.status(400).json({ message: 'Le paramètre "query" est requis.' });
+    }
+
+    // Effectuer la recherche dans les playlists (ex. recherche par nom ou genre)
+    const playlists = await Playlist.find({
+      $or: [
+        { name: { $regex: query, $options: 'i' } }, // Recherche insensible à la casse par nom
+        { genre: { $regex: query, $options: 'i' } }, // Recherche insensible à la casse par genre
+      ],
+    });
+
+    if (playlists.length === 0) {
+      return res.status(404).json({ message: 'Aucune playlist trouvée.' });
+    }
+
+    res.status(200).json(playlists);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Ajouter une piste à une playlist
+export const addTrackToPlaylist = async (req, res) => {
+  try {
+    const { id } = req.params; // ID de la playlist
+    const { trackId } = req.body; // ID de la piste à ajouter
+
+    // Trouver la playlist par ID
+    const playlist = await Playlist.findById(id);
+    if (!playlist) {
+      return res.status(404).json({ message: 'Playlist non trouvée' });
+    }
+
+    // Ajouter la piste à la playlist
+    if (!playlist.tracks.includes(trackId)) {
+      playlist.tracks.push(trackId);
+      await playlist.save();
+    }
+
+    res.status(200).json(playlist);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Supprimer une piste de la playlist
+export const removeTrackFromPlaylist = async (req, res) => {
+  try {
+    const { id, trackId } = req.params; // ID de la playlist et ID de la piste
+
+    // Trouver la playlist par ID
+    const playlist = await Playlist.findById(id);
+    if (!playlist) {
+      return res.status(404).json({ message: 'Playlist non trouvée' });
+    }
+
+    // Vérifier si la piste existe dans la playlist
+    const trackIndex = playlist.tracks.indexOf(trackId);
+    if (trackIndex === -1) {
+      return res.status(404).json({ message: 'Piste non trouvée dans la playlist' });
+    }
+
+    // Supprimer la piste de la playlist
+    playlist.tracks.splice(trackIndex, 1);
+    await playlist.save();
+
+    res.status(200).json(playlist);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Récupérer une playlist par ID avec cache
 export const getPlaylistById = async (req, res) => {
   try {
