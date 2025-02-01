@@ -6,7 +6,7 @@ import * as mm from 'music-metadata';
 import { faker } from '@faker-js/faker/locale/fr';
 import Artist from '../models/Artist.js';
 import Album from '../models/Album.js';
-import { convertToM4A, getAudioDuration } from '../services/audioService.js';
+import { convertToWAV, getAudioDuration } from '../services/audioService.js';
 import logger from '../config/logger.js';
 
 // Récupérer toutes les pistes audio avec cache
@@ -140,7 +140,7 @@ export const createTrack = async (req, res) => {
     try {
       // Convertir l'audio en WAV
       logger.info('Début de la conversion audio en M4A...');
-      const convertedAudio = await convertToM4A(file.buffer);
+      const convertedAudio = await convertToWAV(file.buffer);
       logger.info('Conversion audio terminée avec succès');
 
       // Extraire les métadonnées du fichier original

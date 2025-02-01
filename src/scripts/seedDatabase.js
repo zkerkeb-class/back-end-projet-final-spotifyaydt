@@ -9,7 +9,7 @@ import Album from '../models/Album.js';
 import Track from '../models/Track.js';
 import { s3Client, S3_CONFIG, generateS3Key } from '../config/s3.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { convertToM4A } from '../services/audioService.js';
+import { convertToWAV } from '../services/audioService.js';
 
 // Connexion à MongoDB
 connectToDb()
@@ -27,7 +27,7 @@ const uploadToS3 = async (filePath, fileName) => {
 
     // Convertir en M4A
     logger.info(`Conversion de ${fileName} en M4A...`);
-    const convertedAudio = await convertToM4A(fileBuffer);
+    const convertedAudio = await convertToWAV(fileBuffer);
     logger.info(`Conversion de ${fileName} terminée`);
 
     // Générer une clé S3 unique
@@ -38,7 +38,7 @@ const uploadToS3 = async (filePath, fileName) => {
       Bucket: S3_CONFIG.bucketName,
       Key: s3Key,
       Body: convertedAudio.buffer,
-      ContentType: 'audio/mp4',
+      ContentType: 'audio/wav',
       CacheControl: 'public, max-age=31536000',
     };
 
@@ -74,7 +74,13 @@ const extractMetadata = async (filePath) => {
     const duration =
       Math.round(metadata.format.duration) || faker.number.int({ min: 120, max: 300 });
 
-    return { title, artists, duration };
+    const album = metadata.common.album || faker.lorem.words(2);
+    const genre = Array.isArray(metadata.common.genre)
+      ? metadata.common.genre[0]
+      : metadata.common.genre || faker.music.genre();
+    const year = metadata.common.year || faker.date.past(30).getFullYear();
+
+    return { title, artists, duration, album, genre, year };
   } catch (error) {
     logger.error(`Erreur d'extraction des métadonnées pour ${filePath}: ${error.message}`);
     return null;
@@ -82,12 +88,12 @@ const extractMetadata = async (filePath) => {
 };
 
 // Fonction pour générer un artiste
-const createArtiste = async (artisteName) => {
+const createArtiste = async (artisteName, genre) => {
   let artiste = await Artist.findOne({ name: artisteName });
   if (!artiste) {
     artiste = await Artist.create({
       name: artisteName,
-      genre: faker.music.genre(),
+      genre: genre,
       description: faker.lorem.paragraph(),
       popularity: faker.number.int({ min: 0, max: 100 }),
     });
@@ -98,10 +104,10 @@ const createArtiste = async (artisteName) => {
   return artiste;
 };
 
-const createAlbum = async (albumTitle, artistes) => {
+const createAlbum = async (albumTitle, artistes, genre) => {
   const artistesId = await Promise.all(
     artistes.map(async (artisteName) => {
-      const artiste = await createArtiste(artisteName);
+      const artiste = await createArtiste(artisteName, genre);
       return artiste._id;
     })
   );
@@ -116,7 +122,7 @@ const createAlbum = async (albumTitle, artistes) => {
       title: albumTitle,
       releaseDate: faker.date.past(30).getFullYear(),
       artist: artistesId[0],
-      genre: faker.music.genre(),
+      genre: genre, // Utilisation du genre extrait
       coverImage: 'https://source.unsplash.com/random/800x600',
     });
     logger.info(`Album créé : ${albumTitle}`);
@@ -124,10 +130,20 @@ const createAlbum = async (albumTitle, artistes) => {
     logger.info(`Album trouvé : ${albumTitle}`);
   }
 
+  // Ajouter l'album à l'artiste, vérifier s'il n'est pas déjà ajouté
+  const artiste = await Artist.findById(artistesId[0]);
+  if (!artiste.albums.includes(album._id)) {
+    artiste.albums.push(album._id);
+    await artiste.save();
+    logger.info(`Album ajouté à l'artiste : ${albumTitle}`);
+  } else {
+    logger.info(`L'album ${albumTitle} est déjà associé à l'artiste.`);
+  }
+
   return album;
 };
 
-const createAudio = async (audioData, albumId, artistes) => {
+const createAudio = async (audioData, albumId, artistes, genre) => {
   if (!artistes || artistes.length === 0) {
     throw new Error('Au moins un artiste doit être spécifié.');
   }
@@ -137,23 +153,30 @@ const createAudio = async (audioData, albumId, artistes) => {
     throw new Error(`Aucun artiste trouvé pour ${artistes[0]}`);
   }
 
-  let audio = await Track.findOne({ s3Key: audioData.s3Key });
+  let audio = await Track.findOne({ title: audioData.title, artist: artist._id });
   if (!audio) {
     if (!albumId) {
       throw new Error(`Aucun album trouvé pour le fichier ${audioData.filePath}`);
     }
 
+    // Assurer que le genre est défini (s'il est vide, on attribue un genre par défaut)
+    const trackGenre = genre || faker.music.genre();
+
     audio = await Track.create({
       title: audioData.title,
       artist: artist._id,
-      album: albumId,
-      genre: faker.music.genre(),
+      album: albumId, // Associer l'album à la piste
+      genre: trackGenre, // Utilisation du genre extrait ou généré
       duration: audioData.duration,
       audioUrl: audioData.audioUrl,
       s3Key: audioData.s3Key,
       listens: faker.number.int({ min: 0, max: 1000 }),
       releaseDate: new Date(),
     });
+
+    // Ajouter la piste à l'album
+    await Album.findByIdAndUpdate(albumId, { $push: { tracks: audio._id } });
+
     logger.info(`Audio créé : ${audioData.title}`);
   } else {
     logger.info(`Audio trouvé : ${audioData.title}`);
@@ -161,7 +184,6 @@ const createAudio = async (audioData, albumId, artistes) => {
   return audio;
 };
 
-// Fonction pour traiter un fichier audio
 const processAudioFile = async (filePath) => {
   try {
     // Extraire les métadonnées du fichier
@@ -170,15 +192,27 @@ const processAudioFile = async (filePath) => {
       return;
     }
 
-    const { title, artists, duration } = metadata;
+    const { title, artists, duration, album, genre, year } = metadata;
+
+    // Vérifier si l'audio existe déjà dans la base de données
+    const artist = await createArtiste(artists[0], genre);
+    if (!artist) {
+      logger.warn(`Impossible de créer ou récupérer l'artiste : ${artists[0]}`);
+      return;
+    }
+
+    const existingTrack = await Track.findOne({ title, artist: artist._id });
+    if (existingTrack) {
+      logger.info(`L'audio existe déjà : ${title} - Artistes : ${artists.join(', ')}`);
+      return; // Si l'audio existe déjà, on arrête le traitement
+    }
 
     // Upload vers S3
     const fileName = path.basename(filePath, path.extname(filePath));
     const s3Data = await uploadToS3(filePath, fileName);
 
     // Créer ou récupérer l'album avec les artistes
-    const albumTitle = faker.lorem.words(2);
-    const album = await createAlbum(albumTitle, artists);
+    const albumData = await createAlbum(album, artists, genre);
 
     // Créer ou récupérer l'Audio et l'associer à l'album
     await createAudio(
@@ -188,8 +222,10 @@ const processAudioFile = async (filePath) => {
         audioUrl: s3Data.audioUrl,
         s3Key: s3Data.s3Key,
       },
-      album._id,
-      artists
+      albumData._id,
+      artists,
+      genre,
+      year
     );
 
     logger.info(`Fichier audio traité : ${title} - Artistes : ${artists.join(', ')}`);

@@ -7,7 +7,7 @@ import logger from '../config/logger.js';
 // Configuration du chemin ffmpeg
 ffmpeg.setFfmpegPath(ffmpegPath.path);
 
-export const convertToM4A = (inputBuffer) => {
+export const convertToWAV = (inputBuffer) => {
   return new Promise((resolve, reject) => {
     const outputStream = new PassThrough(); // Stream de sortie
     const outputBuffer = [];
@@ -17,8 +17,10 @@ export const convertToM4A = (inputBuffer) => {
     readableStream.push(null);
 
     ffmpeg(readableStream)
-      .format('ipod') // Format M4A compatible
-      .audioCodec('aac')
+      .format('wav') // Format WAV
+      .audioCodec('pcm_u8') // Codec audio pour WAV
+      .audioFrequency(22050)
+      .audioChannels(1) // Passer en mono
       .on('error', (err) => reject(err))
       .pipe(outputStream); // Rediriger la sortie vers un stream
 
@@ -26,8 +28,8 @@ export const convertToM4A = (inputBuffer) => {
     outputStream.on('end', () => {
       resolve({
         buffer: Buffer.concat(outputBuffer),
-        extension: 'm4a',
-        contentType: 'audio/mp4',
+        extension: 'wav',
+        contentType: 'audio/wav',
       });
     });
   });

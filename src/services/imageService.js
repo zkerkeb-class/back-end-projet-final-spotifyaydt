@@ -11,13 +11,11 @@ const IMAGE_SIZES = {
 };
 
 // Configuration des formats d'images
-const IMAGE_FORMATS = ['webp', 'jpeg', 'avif'];
+const IMAGE_FORMATS = ['webp'];
 
 // Configuration de la qualité par format
 const FORMAT_QUALITY = {
   webp: { quality: 80, effort: 6 }, // Effort: 0 (rapide) à 6 (meilleure compression)
-  jpeg: { quality: 85, progressive: true },
-  avif: { quality: 70, effort: 8 }, // AVIF nécessite plus d'effort pour une bonne compression
 };
 
 /**
