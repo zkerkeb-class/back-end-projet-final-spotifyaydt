@@ -2,6 +2,11 @@ import express from 'express';
 import { validateTrack } from '../validations/trackValidation.js';
 import { uploadAudio, handleMulterError } from '../middlewares/uploadMiddleware.js';
 import {
+  rateLimiter,
+  uploadRateLimiter,
+  heavyRequestRateLimiter,
+} from '../middlewares/rateLimiter.js';
+import {
   getAllTracks,
   getTrackById,
   createTrack,
@@ -14,16 +19,18 @@ import {
 
 const router = express.Router();
 
-// Routes publiques
-router.get('/', getAllTracks);
-router.get('/search', searchTracks);
-router.get('/filter/:filterType/:filterValue', filterTracks);
-router.get('/sort/:sortBy/:order?', sortTracks);
-router.get('/:id', getTrackById);
+// Routes de lecture (limites plus souples)
+router.get('/', rateLimiter, getAllTracks);
+router.get('/:id', rateLimiter, getTrackById);
 
-// Routes protégées nécessitant une authentification
-router.post('/', uploadAudio, handleMulterError, validateTrack, createTrack);
-router.put('/:id', validateTrack, updateTrack);
-router.delete('/:id', deleteTrack);
+// Routes de recherche et filtrage (requêtes lourdes - limites strictes)
+router.get('/search', heavyRequestRateLimiter, searchTracks);
+router.get('/filter/:filterType/:filterValue', heavyRequestRateLimiter, filterTracks);
+router.get('/sort/:sortBy/:order?', heavyRequestRateLimiter, sortTracks);
+
+// Routes de modification (limites modérées)
+router.post('/', uploadRateLimiter, uploadAudio, handleMulterError, validateTrack, createTrack);
+router.put('/:id', heavyRequestRateLimiter, validateTrack, updateTrack);
+router.delete('/:id', heavyRequestRateLimiter, deleteTrack);
 
 export default router;

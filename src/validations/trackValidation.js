@@ -1,32 +1,14 @@
 import Joi from 'joi';
 
+// La validation est maintenant optionnelle car nous générons les données manquantes
 const trackSchema = Joi.object({
-  title: Joi.string().required().trim().messages({
-    'string.empty': 'Le titre est requis',
-    'any.required': 'Le titre est requis',
-  }),
-  artist: Joi.string().required().messages({
-    'string.empty': 'Lartiste est requis',
-    'any.required': 'Lartiste est requis',
-  }),
-  album: Joi.string().required().messages({
-    'string.empty': 'Lalbum est requis',
-    'any.required': 'Lalbum est requis',
-  }),
-  genre: Joi.string().required().messages({
-    'string.empty': 'Le genre est requis',
-    'any.required': 'Le genre est requis',
-  }),
-  duration: Joi.number().required().min(0).messages({
-    'number.base': 'La durée doit être un nombre',
-    'number.min': 'La durée doit être positive',
-    'any.required': 'La durée est requise',
-  }),
-  releaseDate: Joi.date().required().messages({
-    'date.base': 'La date de sortie doit être une date valide',
-    'any.required': 'La date de sortie est requise',
-  }),
-});
+  title: Joi.string().trim(),
+  artist: Joi.string(),
+  album: Joi.string(),
+  genre: Joi.string(),
+  duration: Joi.number().min(0),
+  releaseDate: Joi.date(),
+}).unknown(true); // Permet des champs supplémentaires
 
 export const validateTrack = (req, res, next) => {
   // Vérifier si un fichier a été uploadé pour la création
@@ -34,11 +16,13 @@ export const validateTrack = (req, res, next) => {
     return res.status(400).json({ message: 'Le fichier audio est requis' });
   }
 
-  const { error } = trackSchema.validate(req.body, { abortEarly: false });
-
-  if (error) {
-    const errors = error.details.map((detail) => detail.message);
-    return res.status(400).json({ errors });
+  // Si des données sont fournies, les valider
+  if (Object.keys(req.body).length > 0) {
+    const { error } = trackSchema.validate(req.body, { abortEarly: false });
+    if (error) {
+      const errors = error.details.map((detail) => detail.message);
+      return res.status(400).json({ errors });
+    }
   }
 
   next();

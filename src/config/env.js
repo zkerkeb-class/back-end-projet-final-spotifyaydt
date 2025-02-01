@@ -24,9 +24,9 @@ config({ path: envFile });
 // Destructuration des variables d'environnement
 const { MONGODB_USER, MONGODB_PASSWORD, MONGODB_CLUSTER } = process.env;
 
-if (!MONGODB_USER || !MONGODB_PASSWORD || !MONGODB_CLUSTER) {
-  throw new Error('Missing required environment variables');
-}
+// if (!MONGODB_USER || !MONGODB_PASSWORD || !MONGODB_CLUSTER) {
+//   throw new Error('Missing required environment variables');
+// }
 
 // Configuration de la base de données
 const commonConfig = {

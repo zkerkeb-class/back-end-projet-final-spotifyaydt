@@ -2,6 +2,12 @@ import redisClient from '../config/redis.js';
 import Track from '../models/Track.js';
 import { s3Client, S3_CONFIG, generateS3Key } from '../config/s3.js';
 import { PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import * as mm from 'music-metadata';
+import { faker } from '@faker-js/faker/locale/fr';
+import Artist from '../models/Artist.js';
+import Album from '../models/Album.js';
+import { convertToWAV, getAudioDuration } from '../services/audioService.js';
+import logger from '../config/logger.js';
 
 // Récupérer toutes les pistes audio avec cache
 export const getAllTracks = async (req, res) => {
@@ -57,6 +63,57 @@ const invalidateTrackCache = async (id = null) => {
   }
 };
 
+// Fonction utilitaire pour extraire les métadonnées
+const extractMetadata = async (buffer) => {
+  try {
+    const metadata = await mm.parseBuffer(buffer);
+    return {
+      title: metadata.common.title,
+      artist: metadata.common.artist,
+      album: metadata.common.album,
+      genre: metadata.common.genre?.[0],
+      duration: Math.round(metadata.format.duration || 0),
+      releaseDate: metadata.common.year ? new Date(metadata.common.year, 0) : null,
+    };
+  } catch (error) {
+    logger.error('Erreur lors de lextraction des métadonnées:', { error: error.message });
+    return null;
+  }
+};
+
+// Fonction pour créer ou récupérer un artiste
+const getOrCreateArtist = async (artistName) => {
+  let artist = await Artist.findOne({ name: artistName });
+
+  if (!artist) {
+    artist = await Artist.create({
+      name: artistName,
+      genre: faker.music.genre(),
+      description: faker.lorem.paragraph(),
+      popularity: faker.number.int({ min: 0, max: 100 }),
+    });
+  }
+
+  return artist;
+};
+
+// Fonction pour créer ou récupérer un album
+const getOrCreateAlbum = async (albumTitle, artistId) => {
+  let album = await Album.findOne({ title: albumTitle, artist: artistId });
+
+  if (!album) {
+    album = await Album.create({
+      title: albumTitle,
+      artist: artistId,
+      genre: faker.music.genre(),
+      releaseDate: faker.date.past(),
+      coverImage: faker.image.urlLoremFlickr({ category: 'album' }),
+    });
+  }
+
+  return album;
+};
+
 // Créer une nouvelle piste audio
 export const createTrack = async (req, res) => {
   try {
@@ -65,39 +122,107 @@ export const createTrack = async (req, res) => {
       return res.status(400).json({ message: 'Aucun fichier audio na été fourni' });
     }
 
-    // Générer une clé unique pour S3
-    const s3Key = generateS3Key('tracks', file.originalname);
+    // Vérifier le type MIME
+    const allowedMimes = [
+      'audio/mpeg',
+      'audio/mp3',
+      'audio/wav',
+      'audio/ogg',
+      'audio/aac',
+      'audio/m4a',
+    ];
+    if (!allowedMimes.includes(file.mimetype)) {
+      return res.status(400).json({
+        message: 'Format de fichier non supporté. Utilisez MP3, WAV, OGG, AAC ou M4A.',
+      });
+    }
 
-    // Configurer le upload vers S3
-    const uploadParams = {
-      Bucket: S3_CONFIG.bucketName,
-      Key: s3Key,
-      Body: file.buffer,
-      ContentType: file.mimetype,
-    };
+    try {
+      // Convertir l'audio en WAV
+      logger.info('Début de la conversion audio en WAV...');
+      const convertedAudio = await convertToWAV(file.buffer);
+      logger.info('Conversion audio terminée avec succès');
 
-    // Upload le fichier vers S3
-    await s3Client.send(new PutObjectCommand(uploadParams));
+      // Extraire les métadonnées du fichier original
+      const metadata = await extractMetadata(file.buffer);
+      logger.info('Métadonnées extraites:', { metadata });
 
-    // Générer l'URL CloudFront en s'assurant qu'il n'y a pas de double slash
-    const cloudfrontDomain = process.env.CLOUDFRONT_URL.replace(/\/+$/, ''); // Enlève les slashes à la fin
-    const cloudfrontUrl = `${cloudfrontDomain}/${s3Key.replace(/^\/+/, '')}`; // Enlève les slashes au début de s3Key
+      // Générer ou utiliser les données
+      const trackData = {
+        title: metadata?.title || faker.music.songName(),
+        genre: metadata?.genre || faker.music.genre(),
+        duration: metadata?.duration || (await getAudioDuration(convertedAudio.buffer)),
+        releaseDate: metadata?.releaseDate || faker.date.past(),
+      };
 
-    // Créer l'objet Track avec l'URL du fichier
-    const trackData = {
-      ...req.body,
-      audioUrl: cloudfrontUrl,
-      s3Key: s3Key,
-    };
+      // Gérer l'artiste
+      const artistName = metadata?.artist || faker.person.fullName();
+      const artist = await getOrCreateArtist(artistName);
+      trackData.artist = artist._id;
 
-    const track = new Track(trackData);
-    const savedTrack = await track.save();
-    await invalidateTrackCache();
+      // Gérer l'album
+      const albumTitle = metadata?.album || `${faker.music.songName()} (Album)`;
+      const album = await getOrCreateAlbum(albumTitle, artist._id);
+      trackData.album = album._id;
 
-    res.status(201).json(savedTrack);
+      // Générer une clé unique pour S3 avec l'extension .wav
+      const originalFileName = file.originalname.replace(/\.[^/.]+$/, '');
+      const s3Key = generateS3Key('tracks', `${originalFileName}.${convertedAudio.extension}`);
+
+      // Configurer le upload vers S3 avec les bons headers pour le streaming
+      const uploadParams = {
+        Bucket: S3_CONFIG.bucketName,
+        Key: s3Key,
+        Body: convertedAudio.buffer,
+        ContentType: convertedAudio.contentType,
+        CacheControl: 'public, max-age=31536000', // Cache d'un an
+        ACL: 'public-read',
+      };
+
+      // Upload le fichier vers S3
+      logger.info('Début de lupload vers S3...');
+      await s3Client.send(new PutObjectCommand(uploadParams));
+      logger.info('Upload vers S3 terminé avec succès');
+
+      // Générer l'URL CloudFront
+      const cloudfrontDomain = process.env.CLOUDFRONT_URL.replace(/\/+$/, '');
+      const cloudfrontUrl = `${cloudfrontDomain}/${s3Key.replace(/^\/+/, '')}`;
+
+      // Ajouter les URLs
+      trackData.audioUrl = cloudfrontUrl;
+      trackData.s3Key = s3Key;
+
+      // Créer et sauvegarder la piste
+      const track = new Track(trackData);
+      const savedTrack = await track.save();
+
+      // Mettre à jour l'album avec la nouvelle piste
+      await Album.findByIdAndUpdate(album._id, {
+        $addToSet: { tracks: savedTrack._id },
+      });
+
+      await invalidateTrackCache();
+
+      // Récupérer la piste avec les relations peuplées
+      const populatedTrack = await Track.findById(savedTrack._id)
+        .populate('artist')
+        .populate('album');
+
+      res.status(201).json(populatedTrack);
+    } catch (conversionError) {
+      logger.error('Erreur détaillée:', { error: conversionError.message });
+      return res.status(400).json({
+        message:
+          'Erreur lors de la conversion du fichier audio. Vérifiez que le fichier nest pas corrompu.',
+        error: conversionError.message,
+      });
+    }
   } catch (error) {
-    logger.error('Erreur lors de la création de la piste:', error);
-    res.status(400).json({ message: error.message });
+    logger.error('Erreur lors de la création de la piste:', { error: error.message });
+    res.status(500).json({
+      message: 'Une erreur est survenue lors de la création de la piste',
+      error: error.message,
+    });
   }
 };
 
