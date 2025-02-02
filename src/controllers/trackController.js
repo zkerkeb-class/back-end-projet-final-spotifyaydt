@@ -215,6 +215,10 @@ export const createTrack = async (req, res) => {
       const album = await getOrCreateAlbum(albumTitle, artist._id);
       trackData.album = album._id;
 
+      await Artist.findByIdAndUpdate(artist._id, {
+        $addToSet: { albums: album._id },
+      });
+
       // Générer une clé unique pour S3 avec l'extension .wav
       const originalFileName = file.originalname.replace(/\.[^/.]+$/, '');
       const s3Key = generateS3Key('tracks', `${originalFileName}.${convertedAudio.extension}`);

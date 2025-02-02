@@ -19,7 +19,7 @@ const router = express.Router();
 router.post('/', heavyRequestRateLimiter, validatePlaylist, createPlaylist); // Créer une playlist
 router.get('/', rateLimiter, getAllPlaylists); // Récupérer toutes les playlists
 router.get('/:id', rateLimiter, getPlaylistById); // Récupérer une playlist par ID
-router.put('/:id', heavyRequestRateLimiter, validatePlaylist, updatePlaylist); // Mettre à jour une playlist
+router.put('/:id', heavyRequestRateLimiter, updatePlaylist); // Mettre à jour une playlist
 router.delete('/:id', heavyRequestRateLimiter, deletePlaylist); // Supprimer une playlist
 router.get('/sort/tracks', getPlaylistsSortedByTrackCount); // Récupérer les playlists triées par nombre de pistes
 
