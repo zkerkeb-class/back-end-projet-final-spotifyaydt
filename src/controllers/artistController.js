@@ -12,8 +12,21 @@ export const getAllArtists = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedArtists)); // Retourne les données du cache
     }
 
-    const artists = await Artist.find().populate('albums');
-    await redisClient.set(cacheKey, JSON.stringify(artists), 'EX', 3600); // Stocke dans Redis avec expiration de 1h
+    // On récupère tous les artistes et on peuple les albums et tracks
+    const artists = await Artist.find().populate({
+      path: 'albums',
+      populate: {
+        path: 'tracks',
+        model: 'Track',
+        populate: {
+          path: 'artist',
+          model: 'Artist',
+        },
+      },
+    });
+
+    // Mettre en cache les artistes avec albums et tracks peuplés
+    await redisClient.set(cacheKey, JSON.stringify(artists), 'EX', 3600); // Cache avec expiration de 1h
 
     res.status(200).json(artists);
   } catch (error) {
@@ -32,11 +45,24 @@ export const getArtistById = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedArtist)); // Retourne les données du cache
     }
 
-    const artist = await Artist.findById(id).populate('albums');
+    const artist = await Artist.findById(id).populate({
+      path: 'albums',
+      populate: {
+        path: 'tracks',
+        model: 'Track',
+        populate: {
+          path: 'artist',
+          model: 'Artist',
+        },
+      },
+    });
+
     if (!artist) {
       return res.status(404).json({ message: 'Artiste non trouvé' });
     }
-    await redisClient.set(cacheKey, JSON.stringify(artist), 'EX', 3600); // Stocke dans Redis avec expiration de 1h
+
+    // Mettre en cache l'artiste avec albums et tracks
+    await redisClient.set(cacheKey, JSON.stringify(artist), 'EX', 3600); // Cache avec expiration de 1h
 
     res.status(200).json(artist);
   } catch (error) {
@@ -44,7 +70,7 @@ export const getArtistById = async (req, res) => {
   }
 };
 
-//Créer un nouvel artiste (invalide le cache global des artistes)
+// Créer un nouvel artiste (invalide le cache global des artistes)
 export const createArtist = async (req, res) => {
   try {
     const artist = new Artist(req.body);
@@ -68,17 +94,32 @@ const invalidateArtistCache = async (id = null) => {
   }
 };
 
-// Ajoutez une invalidation de cache dans les fonctions de mise à jour et de suppression
+// Ajouter une invalidation de cache dans les fonctions de mise à jour et de suppression
 export const updateArtist = async (req, res) => {
   try {
     const updatedArtist = await Artist.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
-    }).populate('albums');
+    }).populate({
+      path: 'albums',
+      populate: {
+        path: 'tracks',
+        model: 'Track',
+        populate: {
+          path: 'artist',
+          model: 'Artist',
+        },
+      },
+    });
+
     if (!updatedArtist) {
       return res.status(404).json({ message: 'Artiste non trouvé' });
     }
-    await invalidateArtistCache(req.params.id); // Invalide le cache
+
+    // Invalider le cache
+    await redisClient.del('artists:all');
+    await redisClient.del(`artist:${req.params.id}`);
+
     res.status(200).json(updatedArtist);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -109,7 +150,18 @@ export const getArtistsByGenre = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedArtists)); // Retourne les données du cache
     }
 
-    const artists = await Artist.find({ genre }).populate('albums');
+    const artists = await Artist.find({ genre }).populate({
+      path: 'albums',
+      populate: {
+        path: 'tracks',
+        model: 'Track',
+        populate: {
+          path: 'artist', // Peupler l'artiste dans chaque track
+          model: 'Artist', // Assurer que ce sont des objets Artist
+        },
+      },
+    });
+
     await redisClient.set(cacheKey, JSON.stringify(artists), 'EX', 3600); // Stocke dans Redis avec expiration de 1h
 
     res.status(200).json(artists);
@@ -130,7 +182,17 @@ export const getArtistsSortedByName = async (req, res) => {
 
     const artists = await Artist.find()
       .sort({ name: 1 }) // 1 pour trier par ordre alphabétique
-      .populate('albums');
+      .populate({
+        path: 'albums',
+        populate: {
+          path: 'tracks',
+          model: 'Track',
+          populate: {
+            path: 'artist', // Peupler l'artiste dans chaque track
+            model: 'Artist', // Assurer que ce sont des objets Artist
+          },
+        },
+      });
 
     await redisClient.set(cacheKey, JSON.stringify(artists), 'EX', 3600);
 

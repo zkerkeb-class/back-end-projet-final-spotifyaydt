@@ -20,9 +20,34 @@ export const getAllTracks = async (req, res) => {
     }
 
     const tracks = await Track.find().populate('artist album');
-    await redisClient.set(cacheKey, JSON.stringify(tracks), 'EX', 3600); // Cache avec expiration de 1h
 
-    res.status(200).json(tracks);
+    // Transformation des données pour retirer les ObjectId et garder les informations pertinentes
+    const tracksWithDetails = tracks.map((track) => ({
+      _id: track._id,
+      title: track.title,
+      genre: track.genre,
+      duration: track.duration,
+      audioUrl: track.audioUrl,
+      releaseDate: track.releaseDate,
+      listens: track.listens,
+      artist: {
+        _id: track.artist._id,
+        name: track.artist.name,
+        genre: track.artist.genre,
+        description: track.artist.description,
+      },
+      album: {
+        _id: track.album._id,
+        title: track.album.title,
+        genre: track.album.genre,
+        releaseDate: track.album.releaseDate,
+        coverImage: track.album.coverImage,
+      },
+    }));
+
+    await redisClient.set(cacheKey, JSON.stringify(tracksWithDetails), 'EX', 3600); // Cache avec expiration de 1h
+
+    res.status(200).json(tracksWithDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -43,9 +68,34 @@ export const getTrackById = async (req, res) => {
     if (!track) {
       return res.status(404).json({ message: 'Piste audio non trouvée' });
     }
-    await redisClient.set(cacheKey, JSON.stringify(track), 'EX', 3600); // Cache avec expiration de 1h
 
-    res.status(200).json(track);
+    // Transformation des données pour retourner des objets avec des informations d'artistes et d'albums
+    const trackWithDetails = {
+      _id: track._id,
+      title: track.title,
+      genre: track.genre,
+      duration: track.duration,
+      audioUrl: track.audioUrl,
+      releaseDate: track.releaseDate,
+      listens: track.listens,
+      artist: {
+        _id: track.artist._id,
+        name: track.artist.name,
+        genre: track.artist.genre,
+        description: track.artist.description,
+      },
+      album: {
+        _id: track.album._id,
+        title: track.album.title,
+        genre: track.album.genre,
+        releaseDate: track.album.releaseDate,
+        coverImage: track.album.coverImage,
+      },
+    };
+
+    await redisClient.set(cacheKey, JSON.stringify(trackWithDetails), 'EX', 3600); // Cache avec expiration de 1h
+
+    res.status(200).json(trackWithDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

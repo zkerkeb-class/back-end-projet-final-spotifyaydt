@@ -11,10 +11,46 @@ export const getAllPlaylists = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedPlaylists)); // Retourne les données du cache
     }
 
-    const playlists = await Playlist.find().populate('tracks');
-    await redisClient.set(cacheKey, JSON.stringify(playlists), 'EX', 3600); // Cache avec expiration de 1h
+    const playlists = await Playlist.find().populate({
+      path: 'tracks',
+      populate: [
+        { path: 'artist', select: 'name genre description' },
+        { path: 'album', select: 'title genre releaseDate coverImage' },
+      ],
+    });
 
-    res.status(200).json(playlists);
+    // Transformation des données pour simplifier la structure et éviter les ObjectId
+    const playlistsWithDetails = playlists.map((playlist) => ({
+      _id: playlist._id,
+      name: playlist.name,
+      description: playlist.description,
+      tracks: playlist.tracks.map((track) => ({
+        _id: track._id,
+        title: track.title,
+        genre: track.genre,
+        duration: track.duration,
+        audioUrl: track.audioUrl,
+        releaseDate: track.releaseDate,
+        listens: track.listens,
+        artist: {
+          _id: track.artist._id,
+          name: track.artist.name,
+          genre: track.artist.genre,
+          description: track.artist.description,
+        },
+        album: {
+          _id: track.album._id,
+          title: track.album.title,
+          genre: track.album.genre,
+          releaseDate: track.album.releaseDate,
+          coverImage: track.album.coverImage,
+        },
+      })),
+    }));
+
+    await redisClient.set(cacheKey, JSON.stringify(playlistsWithDetails), 'EX', 3600); // Cache avec expiration de 1h
+
+    res.status(200).json(playlistsWithDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -109,13 +145,50 @@ export const getPlaylistById = async (req, res) => {
       return res.status(200).json(JSON.parse(cachedPlaylist)); // Retourne les données du cache
     }
 
-    const playlist = await Playlist.findById(id).populate('tracks');
+    const playlist = await Playlist.findById(id).populate({
+      path: 'tracks',
+      populate: [
+        { path: 'artist', select: 'name genre description' },
+        { path: 'album', select: 'title genre releaseDate coverImage' },
+      ],
+    });
+
     if (!playlist) {
       return res.status(404).json({ message: 'Playlist non trouvée' });
     }
-    await redisClient.set(cacheKey, JSON.stringify(playlist), 'EX', 3600); // Cache avec expiration de 1h
 
-    res.status(200).json(playlist);
+    // Transformation des données pour simplifier la structure et éviter les ObjectId
+    const playlistWithDetails = {
+      _id: playlist._id,
+      name: playlist.name,
+      description: playlist.description,
+      tracks: playlist.tracks.map((track) => ({
+        _id: track._id,
+        title: track.title,
+        genre: track.genre,
+        duration: track.duration,
+        audioUrl: track.audioUrl,
+        releaseDate: track.releaseDate,
+        listens: track.listens,
+        artist: {
+          _id: track.artist._id,
+          name: track.artist.name,
+          genre: track.artist.genre,
+          description: track.artist.description,
+        },
+        album: {
+          _id: track.album._id,
+          title: track.album.title,
+          genre: track.album.genre,
+          releaseDate: track.album.releaseDate,
+          coverImage: track.album.coverImage,
+        },
+      })),
+    };
+
+    await redisClient.set(cacheKey, JSON.stringify(playlistWithDetails), 'EX', 3600); // Cache avec expiration de 1h
+
+    res.status(200).json(playlistWithDetails);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
