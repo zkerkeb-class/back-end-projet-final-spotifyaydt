@@ -117,9 +117,20 @@ const getOrCreateAlbum = async (albumTitle, artistId) => {
 // Créer une nouvelle piste audio
 export const createTrack = async (req, res) => {
   try {
+    console.log('Headers:', req.headers); // Log des headers
+    console.log('Body:', req.body); // Log du body complet
+    console.log('Files:', req.files); // Log de tous les fichiers
+    console.log('File:', req.file); // Log du fichier unique
+
     const { file } = req;
     if (!file) {
-      return res.status(400).json({ message: 'Aucun fichier audio na été fourni' });
+      console.log('No file in request. Request details:', {
+        method: req.method,
+        path: req.path,
+        headers: req.headers,
+        body: req.body,
+      });
+      return res.status(400).json({ message: 'Le fichier audio est requis' });
     }
 
     // Vérifier le type MIME

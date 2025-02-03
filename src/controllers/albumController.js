@@ -9,15 +9,21 @@ const getAllAlbums = async (req, res) => {
     const cachedAlbums = await redisClient.get(cacheKey);
 
     if (cachedAlbums) {
-      return res.status(200).json(JSON.parse(cachedAlbums)); // Retourne les données du cache
+      logger.info(
+        `Retour des albums depuis le cache. Nombre d'albums: ${JSON.parse(cachedAlbums).length}`
+      );
+      return res.status(200).json(JSON.parse(cachedAlbums));
     }
 
-    const albums = await Album.find().populate('artist tracks');
-    await redisClient.set(cacheKey, JSON.stringify(albums), 'EX', 3600); // Stocke dans Redis avec expiration de 1h
+    const albums = await Album.find().populate('artist tracks').sort({ createdAt: -1 }); // Ajout d'un tri par date de création
+
+    logger.info(`Albums récupérés depuis la BD. Nombre d'albums: ${albums.length}`);
+
+    await redisClient.set(cacheKey, JSON.stringify(albums), 'EX', 3600);
 
     res.status(200).json(albums);
   } catch (error) {
-    logger.error('Error:', error);
+    logger.error('Error dans getAllAlbums:', error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -52,10 +58,12 @@ const invalidateAlbumCache = async (id = null) => {
   try {
     if (id) {
       await redisClient.del(`album:${id}`);
+      logger.info(`Cache invalidé pour l'album ${id}`);
     }
     await redisClient.del('albums:all');
+    logger.info('Cache global des albums invalidé');
   } catch (error) {
-    logger.error('Erreur lors de l’invalidation du cache Redis :', error);
+    logger.error('Erreur lors de l’invalidation du cache Redis:', error);
   }
 };
 

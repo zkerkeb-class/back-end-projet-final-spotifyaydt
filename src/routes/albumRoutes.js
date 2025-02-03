@@ -3,7 +3,7 @@ import { validateAlbum } from '../validations/albumValidation.js';
 import {
   rateLimiter,
   uploadRateLimiter,
-  heavyRequestRateLimiter,
+  heavyOperationLimiter,
 } from '../middlewares/rateLimiter.js';
 import albumController from '../controllers/albumController.js';
 
@@ -17,7 +17,7 @@ router.get('/:id', rateLimiter, albumController.getAlbumById);
 
 // Routes de modification (limites modérées)
 router.post('/', uploadRateLimiter, validateAlbum, albumController.createAlbum);
-router.put('/:id', heavyRequestRateLimiter, validateAlbum, albumController.updateAlbum);
-router.delete('/:id', heavyRequestRateLimiter, albumController.deleteAlbum);
+router.put('/:id', heavyOperationLimiter, validateAlbum, albumController.updateAlbum);
+router.delete('/:id', heavyOperationLimiter, albumController.deleteAlbum);
 
 export default router;

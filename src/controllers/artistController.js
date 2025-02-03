@@ -1,6 +1,7 @@
 import logger from '../config/logger.js';
 import redisClient from '../config/redis.js';
 import Artist from '../models/Artist.js';
+//import mongoose from 'mongoose';
 
 // Récupérer tous les artistes avec cache
 export const getAllArtists = async (req, res) => {
@@ -87,13 +88,22 @@ export const updateArtist = async (req, res) => {
 
 export const deleteArtist = async (req, res) => {
   try {
-    const deletedArtist = await Artist.findByIdAndDelete(req.params.id);
-    if (!deletedArtist) {
+    const id = req.params.id;
+
+    const artist = await Artist.findById(id);
+
+    if (!artist) {
       return res.status(404).json({ message: 'Artiste non trouvé' });
     }
-    await invalidateArtistCache(req.params.id); // Invalide le cache
-    res.status(200).json({ message: 'Artiste supprimé avec succès' });
+
+    const deletedArtist = await Artist.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: 'Artiste supprimé avec succès',
+      deletedArtist,
+    });
   } catch (error) {
+    logger.error('Erreur lors de la suppression:', error);
     res.status(500).json({ message: error.message });
   }
 };

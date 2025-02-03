@@ -51,3 +51,524 @@
 2025-02-01T14:53:56.903Z [[32minfo[39m]: Redis connecté avec succès
 2025-02-01T14:53:56.906Z [[32minfo[39m]: Connected to Redis
 2025-02-01T14:53:57.324Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T19:57:24.973Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T19:57:24.981Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T19:57:24.987Z [[32minfo[39m]: Connected to Redis
+2025-02-01T19:57:25.962Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T19:57:58.920Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T19:57:58.931Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T19:57:58.939Z [[32minfo[39m]: Connected to Redis
+2025-02-01T19:57:59.858Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T19:58:23.403Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-01T19:58:23.412Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-01T19:59:05.226Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-01T20:01:21.266Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:01:21.275Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:01:21.282Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:01:22.094Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T20:04:28.094Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:04:28.099Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:04:28.104Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:04:28.945Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T20:05:52.315Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:05:52.320Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:05:52.325Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:05:53.210Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T20:17:18.461Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:17:18.466Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:17:18.475Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:17:20.470Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:17:20.473Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:17:20.608Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:17:24.892Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T20:19:08.782Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:19:08.787Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:19:08.794Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:19:09.426Z [[32minfo[39m]: Successfully connected to the database
+2025-02-01T20:30:07.998Z [[32minfo[39m]: Server running on port 3001
+2025-02-01T20:30:08.007Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-01T20:30:08.012Z [[32minfo[39m]: Connected to Redis
+2025-02-01T20:30:08.778Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T07:08:38.212Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T07:08:38.221Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T07:08:38.226Z [[32minfo[39m]: Connected to Redis
+2025-02-02T07:08:38.675Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T07:27:34.643Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T07:27:34.657Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T07:27:34.665Z [[32minfo[39m]: Connected to Redis
+2025-02-02T07:27:35.116Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T07:50:40.755Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T07:50:40.764Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T07:50:40.769Z [[32minfo[39m]: Connected to Redis
+2025-02-02T07:50:41.179Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T07:51:50.089Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 6
+2025-02-02T07:56:02.878Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T07:56:03.031Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T08:01:03.907Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:01:03.913Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:01:03.918Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:01:04.331Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T08:01:51.955Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T08:03:20.771Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:03:20.907Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T08:05:54.551Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:10:10.905Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:10:10.914Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:10:10.919Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:10:11.331Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T08:16:12.879Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:16:27.771Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:16:33.336Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:16:58.511Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:16:58.620Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 9
+2025-02-02T08:19:32.101Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:19:32.108Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:19:32.117Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:19:32.556Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T08:19:52.026Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T08:20:18.764Z [[32minfo[39m]: Cache invalidé pour l'album 679f2512d732d607be98a52d
+2025-02-02T08:20:18.766Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:20:18.869Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 9
+2025-02-02T08:20:43.944Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T08:20:51.280Z [[32minfo[39m]: Cache invalidé pour l'album 679f2512d732d607be98a52d
+2025-02-02T08:20:51.283Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:20:51.379Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 9
+2025-02-02T08:21:07.523Z [[32minfo[39m]: Cache invalidé pour l'album 679f2512d732d607be98a52d
+2025-02-02T08:21:07.526Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:21:07.606Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T08:21:15.647Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:21:24.723Z [[32minfo[39m]: Cache invalidé pour l'album 679f1f8eaccd517e8bb62e7e
+2025-02-02T08:21:24.734Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:21:24.800Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T08:21:29.762Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:21:34.545Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:21:43.915Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T08:24:11.529Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T08:24:11.624Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 9
+2025-02-02T08:25:18.574Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T08:32:09.372Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:32:09.387Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:32:09.529Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:32:09.945Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T08:34:10.664Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:34:10.672Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:34:10.684Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:34:11.011Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T08:46:07.323Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:46:07.344Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:46:07.361Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:46:07.822Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T08:48:16.775Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T08:48:16.786Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T08:48:16.796Z [[32minfo[39m]: Connected to Redis
+2025-02-02T08:48:17.223Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:00:25.233Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:00:25.238Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:00:25.245Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:00:25.683Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:00:55.825Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:00:55.834Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:00:55.839Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:00:56.157Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:07:00.035Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:07:00.040Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:07:00.049Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:07:00.457Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:08:52.295Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:08:52.310Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:08:52.320Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:08:55.603Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:09:25.077Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:09:25.083Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:09:25.090Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:09:25.401Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:10:57.164Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:10:57.171Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:10:57.176Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:10:57.557Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:15:30.413Z [[33mwarn[39m]: Limite de requêtes lourdes dépassée pour ::1
+2025-02-02T09:18:28.108Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:18:28.114Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:18:28.120Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:18:28.527Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:23:37.567Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:23:37.574Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:23:37.580Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:23:38.022Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:24:56.292Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:24:56.296Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:24:56.357Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:24:56.680Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:27:49.003Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:27:49.008Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:27:49.014Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:27:49.419Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:34:51.214Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T09:42:44.990Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:42:45.018Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:42:45.025Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:42:45.421Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:42:58.444Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:42:58.449Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:42:58.455Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:42:58.780Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:46:55.248Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:46:55.253Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:46:55.258Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:46:55.623Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:47:30.772Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:47:30.777Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:47:30.783Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:47:31.114Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:49:00.563Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:49:00.568Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:49:00.572Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:49:00.985Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:49:24.872Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T09:49:24.915Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T09:49:24.934Z [[32minfo[39m]: Connected to Redis
+2025-02-02T09:49:25.357Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T09:56:59.505Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T09:57:51.593Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T10:00:15.358Z [[33mwarn[39m]: Limite de requêtes lourdes dépassée pour ::1
+2025-02-02T10:02:04.231Z [[33mwarn[39m]: Limite de requêtes lourdes dépassée pour ::1
+2025-02-02T10:10:01.418Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T10:10:01.443Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T10:10:01.453Z [[32minfo[39m]: Connected to Redis
+2025-02-02T10:10:01.891Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T10:12:09.599Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T10:12:09.607Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T10:12:09.611Z [[32minfo[39m]: Connected to Redis
+2025-02-02T10:12:10.004Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T10:12:18.301Z [[33mwarn[39m]: Tentative de suppression d'un artiste inexistant: 679ded2445ccb25052ae5349
+2025-02-02T10:15:45.579Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T10:15:45.590Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T10:15:45.597Z [[32minfo[39m]: Connected to Redis
+2025-02-02T10:15:45.969Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T10:15:56.493Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T10:15:56.505Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T10:15:56.512Z [[32minfo[39m]: Connected to Redis
+2025-02-02T10:15:56.842Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T10:16:45.080Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 9
+2025-02-02T10:16:57.125Z [[32minfo[39m]: Cache invalidé pour l'album 679f29fa262a07d5f5f962cb
+2025-02-02T10:16:57.127Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T10:16:57.226Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T10:17:59.567Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T10:52:33.526Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T10:52:33.532Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T10:52:33.537Z [[32minfo[39m]: Connected to Redis
+2025-02-02T10:52:34.073Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T11:03:51.019Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T11:03:51.024Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T11:03:51.029Z [[32minfo[39m]: Connected to Redis
+2025-02-02T11:03:51.424Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T11:05:43.291Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T11:05:43.299Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T11:05:43.318Z [[32minfo[39m]: Connected to Redis
+2025-02-02T11:05:43.775Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T11:19:15.533Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T11:19:15.542Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T11:19:15.548Z [[32minfo[39m]: Connected to Redis
+2025-02-02T11:19:16.031Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T11:23:52.197Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T11:27:10.728Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T11:39:47.909Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T11:39:47.913Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T11:39:47.917Z [[32minfo[39m]: Connected to Redis
+2025-02-02T11:39:48.335Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T13:59:23.561Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T13:59:23.568Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T13:59:23.573Z [[32minfo[39m]: Connected to Redis
+2025-02-02T13:59:23.984Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T14:01:35.577Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T14:01:56.496Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 8
+2025-02-02T14:02:05.012Z [[32minfo[39m]: Cache invalidé pour l'album 679f2babe89f70d975fdfcd2
+2025-02-02T14:02:05.014Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:02:05.099Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T14:02:11.648Z [[32minfo[39m]: Cache invalidé pour l'album 679f2babe89f70d975fdfcd2
+2025-02-02T14:02:11.650Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:02:11.731Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:02:58.447Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:03:57.280Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:05:01.690Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:08:31.366Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T14:08:31.370Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T14:08:31.393Z [[32minfo[39m]: Connected to Redis
+2025-02-02T14:08:31.832Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T14:09:07.377Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:09:13.624Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:09:21.370Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:10:15.000Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:10:55.258Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:10:55.376Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T14:11:19.593Z [[32minfo[39m]: Cache invalidé pour l'album 679f7cefef1a572371782248
+2025-02-02T14:11:19.595Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:11:19.674Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:11:38.595Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:12:03.388Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:12:43.976Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:12:49.204Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:14:25.675Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:20:36.985Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:20:50.960Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:21:05.488Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:21:10.282Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:21:34.565Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:21:46.727Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:23:43.608Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:23:55.228Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:24:33.962Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:25:34.501Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:25:36.746Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:26:04.639Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:26:23.678Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:26:25.752Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:30:04.610Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:30:06.160Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:30:19.106Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:30:39.602Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:23.389Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:26.881Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:29.476Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:33.662Z [[32minfo[39m]: Cache invalidé pour l'album 679e6e5e292cb409b218d403
+2025-02-02T14:32:33.665Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:32:33.732Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:32:45.042Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:48.846Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:52.390Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:32:53.866Z [[32minfo[39m]: Cache invalidé pour l'album 679e6e5e292cb409b218d403
+2025-02-02T14:32:53.868Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:32:53.933Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:33:03.479Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:33:32.736Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:34:10.973Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:34:31.678Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:34:35.709Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:34:44.616Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:35:15.488Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:35:28.204Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:35:36.360Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:38:15.780Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:38:20.789Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:40:10.520Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:40:25.711Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-02T14:40:25.725Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:43:14.241Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:43:17.790Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:43:27.185Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-02T14:43:27.200Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:45:24.125Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T14:45:24.134Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T14:45:24.146Z [[32minfo[39m]: Connected to Redis
+2025-02-02T14:45:24.565Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T14:48:08.227Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T14:48:08.232Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T14:48:08.239Z [[32minfo[39m]: Connected to Redis
+2025-02-02T14:48:08.615Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T14:48:15.478Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:48:22.870Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:52:22.256Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:52:31.661Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T14:52:31.663Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:52:31.779Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:52:47.757Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:55:03.253Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:55:04.814Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:55:10.446Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:55:18.371Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:55:45.354Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:55:47.906Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:57:38.578Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:57:41.944Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:57:49.128Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:57:52.660Z [[32minfo[39m]: Cache invalidé pour l'album 679e662d14f90f06281c39d8
+2025-02-02T14:57:52.663Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:57:52.763Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:57:58.130Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:58:02.838Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T14:58:02.839Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T14:58:02.915Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T14:58:48.691Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:58:57.094Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T14:59:03.171Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:00:09.853Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:00:35.977Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:00:42.307Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:00:51.499Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T15:00:51.501Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T15:00:51.605Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T15:01:04.215Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:01:21.860Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T15:01:21.925Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 8
+2025-02-02T15:01:28.702Z [[32minfo[39m]: Cache invalidé pour l'album 679f88c12303bd13a80dad01
+2025-02-02T15:01:28.704Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T15:01:28.779Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T15:13:55.814Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-02T15:18:26.790Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:22:18.858Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:23:21.002Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:25:47.046Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:25:53.686Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:25:59.371Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T15:25:59.373Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T15:25:59.442Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T15:26:38.316Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:28:33.411Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:29:06.501Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:40:07.937Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:40:11.328Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:40:15.643Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T15:40:15.644Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T15:40:15.703Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T15:44:47.157Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:44:49.274Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T15:44:51.974Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T15:44:51.982Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T15:44:52.090Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 7
+2025-02-02T16:12:46.295Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T16:21:43.459Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-02T16:24:08.529Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T16:24:08.535Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T16:24:08.539Z [[32minfo[39m]: Connected to Redis
+2025-02-02T16:24:08.917Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T16:24:14.305Z [[33mwarn[39m]: Rate limit dépassé pour ::1
+2025-02-02T16:25:32.806Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T16:25:32.811Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T16:25:32.816Z [[32minfo[39m]: Connected to Redis
+2025-02-02T16:25:33.131Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T16:31:07.131Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T16:32:37.716Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T16:35:20.800Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T16:35:20.804Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T16:35:20.876Z [[32minfo[39m]: Connected to Redis
+2025-02-02T16:35:21.229Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T16:36:29.533Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T16:36:29.633Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T16:36:29.732Z [[32minfo[39m]: Connected to Redis
+2025-02-02T16:36:32.236Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T16:37:22.952Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T16:40:32.558Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T16:40:32.569Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T16:40:32.580Z [[32minfo[39m]: Connected to Redis
+2025-02-02T16:40:32.991Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T16:43:13.136Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T16:46:42.048Z [[32minfo[39m]: Server running on port 3001
+2025-02-02T16:46:42.056Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-02T16:46:42.061Z [[32minfo[39m]: Connected to Redis
+2025-02-02T16:46:42.500Z [[32minfo[39m]: Successfully connected to the database
+2025-02-02T16:52:06.074Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-02T16:52:07.173Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-02T16:52:07.214Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-02T16:52:07.356Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-02T16:52:07.910Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-02T17:01:52.053Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-02T17:01:52.177Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-02T17:01:52.181Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-02T17:01:52.351Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-02T17:01:53.830Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-02T17:06:01.524Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T17:06:34.438Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T17:18:42.805Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T17:19:48.076Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T17:23:39.269Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-02T17:23:39.364Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-02T17:23:39.369Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-02T17:23:39.466Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-02T17:23:40.570Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-02T17:23:55.207Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T17:23:56.986Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 7
+2025-02-02T17:24:03.646Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-02T17:24:03.648Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-02T17:24:03.714Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 10
+2025-02-02T17:24:14.131Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T17:32:45.371Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:11:47.080Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:14:43.636Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:15:28.112Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:18:23.623Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:20:03.059Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:24:06.169Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:31:58.472Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-02T18:35:30.531Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-03T08:23:09.242Z [[32minfo[39m]: Server running on port 3001
+2025-02-03T08:23:09.252Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-03T08:23:09.259Z [[32minfo[39m]: Connected to Redis
+2025-02-03T08:23:09.689Z [[32minfo[39m]: Successfully connected to the database
+2025-02-03T08:25:14.792Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-03T08:26:37.297Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-03T08:30:11.887Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-03T08:30:24.217Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 10
+2025-02-03T08:30:35.533Z [[32minfo[39m]: Cache invalidé pour l'album 679e6bef9728074638b68593
+2025-02-03T08:30:35.534Z [[32minfo[39m]: Cache global des albums invalidé
+2025-02-03T08:30:35.603Z [[32minfo[39m]: Albums récupérés depuis la BD. Nombre d'albums: 11
+2025-02-03T09:32:58.708Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T09:33:51.771Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T09:33:56.462Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T11:15:16.417Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:15:17.918Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:15:17.984Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:15:22.036Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:15:22.146Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:15:22.148Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:15:22.955Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:15:23.208Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:15:23.423Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:15:23.469Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:15:23.475Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:15:23.529Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:15:23.636Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:15:23.702Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:15:23.704Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:15:24.391Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:15:24.603Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:15:24.647Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:15:25.018Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T11:15:25.211Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T11:15:25.217Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T11:15:25.352Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T11:15:25.764Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T11:15:26.545Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T11:15:29.464Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T11:15:30.933Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T11:15:31.006Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T11:15:31.125Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T11:15:31.584Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T11:15:31.954Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T11:21:07.198Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:21:07.307Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:21:07.312Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:21:37.324Z [[31merror[39m]: Erreur détaillée:
+2025-02-03T11:22:07.541Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:22:07.627Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:22:07.629Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:22:37.640Z [[31merror[39m]: Erreur détaillée:
+2025-02-03T11:22:56.469Z [[32minfo[39m]: Server running on port 3001
+2025-02-03T11:22:56.474Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-03T11:22:56.479Z [[32minfo[39m]: Connected to Redis
+2025-02-03T11:23:15.205Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T11:23:15.453Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T11:23:15.500Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T11:23:25.527Z [[31merror[39m]: Erreur détaillée:
+2025-02-03T11:24:22.583Z [[31merror[39m]: Database connection error: querySrv ECONNREFUSED _mongodb._tcp.clusterm1.fhsgffl.mongodb.net
+2025-02-03T13:14:54.650Z [[32minfo[39m]: Server running on port 3001
+2025-02-03T13:14:54.657Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-03T13:14:54.663Z [[32minfo[39m]: Connected to Redis
+2025-02-03T13:14:55.654Z [[32minfo[39m]: Successfully connected to the database
+2025-02-03T13:17:52.917Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T14:03:09.974Z [[32minfo[39m]: Server running on port 3001
+2025-02-03T14:03:10.003Z [[32minfo[39m]: Redis connecté avec succès
+2025-02-03T14:03:10.045Z [[32minfo[39m]: Connected to Redis
+2025-02-03T14:03:11.002Z [[32minfo[39m]: Successfully connected to the database
+2025-02-03T14:05:36.149Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T14:06:07.138Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T14:06:44.782Z [[32minfo[39m]: Retour des albums depuis le cache. Nombre d'albums: 11
+2025-02-03T14:07:25.211Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T14:07:25.497Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T14:07:25.554Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T14:07:25.830Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T14:07:26.634Z [[32minfo[39m]: Upload vers S3 terminé avec succès
+2025-02-03T14:11:20.414Z [[32minfo[39m]: Début de la conversion audio en M4A...
+2025-02-03T14:11:20.520Z [[32minfo[39m]: Conversion audio terminée avec succès
+2025-02-03T14:11:20.527Z [[32minfo[39m]: Métadonnées extraites:
+2025-02-03T14:11:20.737Z [[32minfo[39m]: Début de lupload vers S3...
+2025-02-03T14:11:21.515Z [[32minfo[39m]: Upload vers S3 terminé avec succès
