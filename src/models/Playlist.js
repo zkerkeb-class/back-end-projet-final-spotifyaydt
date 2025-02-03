@@ -22,5 +22,14 @@ const playlistSchema = new Schema(
   }
 );
 
+playlistSchema.pre('find', function (next) {
+  this.executionStartTime = Date.now();
+  next();
+});
+
+playlistSchema.post('find', function () {
+  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+});
+
 // Exportation du modèle
 export default model('Playlist', playlistSchema);

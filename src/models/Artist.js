@@ -35,5 +35,15 @@ const artistSchema = new Schema(
   }
 );
 
+// Ajout d'un middleware pour mesurer le temps d'exécution de la recherche  d'artistes
+artistSchema.pre('find', function (next) {
+  this.executionStartTime = Date.now();
+  next();
+});
+
+artistSchema.post('find', function () {
+  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+});
+
 // Exportation du modèle
 export default model('Artist', artistSchema);

@@ -4,6 +4,11 @@ import logger from '../config/logger.js';
 
 let requestsCount = 0;
 let lastRequestTime = Date.now();
+let previousRequestCount = 0;
+let previousCpuUsage = 0;
+let previousMemoryUsage = 0;
+let previousRedisLatency = 0;
+
 const redis = new Redis();
 
 // Réinitialise le compteur de requêtes chaque seconde
@@ -20,24 +25,32 @@ export const getSystemMetrics = async (req, res) => {
     // Récupère les métriques CPU
     const cpuLoad = await si.currentLoad();
     const cpuUsage = cpuLoad.currentLoad;
-    const cpuTrend = cpuLoad.currentLoad - cpuLoad.avgLoad;
+    const cpuTrend = cpuUsage - previousCpuUsage; // Calcul de la tendance CPU
 
     // Métriques mémoire
     const mem = await si.mem();
     const memoryUsage = (mem.used / mem.total) * 100;
-    const memoryTrend = ((mem.used - mem.available) / mem.total) * 100;
+    const memoryTrend = memoryUsage - previousMemoryUsage; // Calcul de la tendance mémoire
 
     // Test de latence Redis
     const startRedis = Date.now();
     await redis.ping();
     const redisLatency = Date.now() - startRedis;
+    const redisLatencyTrend = redisLatency - previousRedisLatency; // Calcul de la tendance de la latence Redis
 
     // Calcul du temps de réponse API moyen
     const apiResponseTime = Date.now() - lastRequestTime;
+    const apiResponseTimeTrend = apiResponseTime - (lastRequestTime - previousRequestCount); // Tendance du temps de réponse API
 
     // Métriques de bande passante
     const networkStats = await si.networkStats();
     const bandwidth = networkStats.reduce((acc, curr) => acc + curr.tx_sec + curr.rx_sec, 0);
+
+    // Mise à jour des anciennes valeurs pour le prochain cycle
+    previousCpuUsage = cpuUsage;
+    previousMemoryUsage = memoryUsage;
+    previousRedisLatency = redisLatency;
+    previousRequestCount = Date.now();
 
     res.json({
       cpuUsage,
@@ -45,13 +58,11 @@ export const getSystemMetrics = async (req, res) => {
       memoryUsage,
       memoryTrend,
       redisLatency,
-      redisLatencyTrend: 0,
+      redisLatencyTrend,
       apiResponseTime,
-      apiResponseTimeTrend: 0,
+      apiResponseTimeTrend,
       bandwidth,
-      bandwidthTrend: 0,
       requestsPerSecond: requestsCount,
-      requestsTrend: 0,
       timestamp: Date.now(),
     });
   } catch (error) {

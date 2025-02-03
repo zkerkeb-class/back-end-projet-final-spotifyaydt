@@ -49,4 +49,17 @@ const trackSchema = new Schema(
   }
 );
 
+trackSchema.pre('find', function (next) {
+  this.executionStartTime = Date.now();
+  next();
+});
+
+trackSchema.post('find', function () {
+  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+  const executionTime = Date.now() - this.executionStartTime;
+  if (executionTime > 1000) {
+    console.log('Recherche longue');
+  }
+});
+
 export default model('Track', trackSchema);

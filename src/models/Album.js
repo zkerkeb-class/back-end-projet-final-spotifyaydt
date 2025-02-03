@@ -39,5 +39,14 @@ const albumSchema = new Schema(
   }
 );
 
+albumSchema.pre('find', function (next) {
+  this.executionStartTime = Date.now();
+  next();
+});
+
+albumSchema.post('find', function () {
+  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+});
+
 // Exportation du modèle
 export default model('Album', albumSchema);
