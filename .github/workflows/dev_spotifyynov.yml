@@ -1,62 +1,61 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - spotifyynov
 
 on:
   push:
     branches:
-      - dev
-  workflow_dispatch:
+      - dev  # Déployer sur la branche 'dev'
+  workflow_dispatch:  # Permet le déclenchement manuel
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read  # Nécessaire pour actions/checkout
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '18.x'  # Version de Node.js que tu veux utiliser
 
-      - name: npm install, build, and test
+      - name: Install dependencies and run tests
         run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+          npm install  # Installe toutes les dépendances
+          npm run build --if-present  # Si tu as un script 'build', il sera exécuté
+          npm run test --if-present  # Si tu as un script 'test', il sera exécuté
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./* -r
+        run: zip -r release.zip ./*  # Crée une archive ZIP contenant tout le projet
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: release.zip
+          path: release.zip  # Télécharge l'archive ZIP créée
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build  # S'assure que la tâche de build est terminée avant le déploiement
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}  # URL de l'application après le déploiement
+
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write  # Requis pour Azure login
+      contents: read  # Requis pour actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: node-app
+          name: node-app  # Récupère l'archive ZIP du job précédent
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
-      
+        run: unzip release.zip  # Décompresse l'archive pour le déploiement
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -64,11 +63,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_DFE7C8B954914C6A80D98D8F1CB33D86 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1B612F57B6F44B319A49ECB3E8175F6B }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'spotifyynov'
-          slot-name: 'Production'
-          package: .
-          
+          app-name: 'spotifyynov'  # Le nom de ton App Service sur Azure
+          slot-name: 'Production'  # Si tu utilises un slot spécifique pour le déploiement
+          package: .  # Le répertoire à déployer
