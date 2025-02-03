@@ -117,18 +117,11 @@ const getOrCreateAlbum = async (albumTitle, artistId) => {
 // Créer une nouvelle piste audio
 export const createTrack = async (req, res) => {
   try {
-    console.log('Headers:', req.headers); // Log des headers
-    console.log('Body:', req.body); // Log du body complet
-    console.log('Files:', req.files); // Log de tous les fichiers
-    console.log('File:', req.file); // Log du fichier unique
-
     const { file } = req;
     if (!file) {
-      console.log('No file in request. Request details:', {
+      logger.warn('Tentative de création de piste sans fichier audio', {
         method: req.method,
         path: req.path,
-        headers: req.headers,
-        body: req.body,
       });
       return res.status(400).json({ message: 'Le fichier audio est requis' });
     }
@@ -143,6 +136,7 @@ export const createTrack = async (req, res) => {
       'audio/m4a',
     ];
     if (!allowedMimes.includes(file.mimetype)) {
+      logger.warn('Format de fichier non supporté', { mimetype: file.mimetype });
       return res.status(400).json({
         message: 'Format de fichier non supporté. Utilisez MP3, WAV, OGG, AAC ou M4A.',
       });
@@ -221,7 +215,7 @@ export const createTrack = async (req, res) => {
 
       res.status(201).json(populatedTrack);
     } catch (conversionError) {
-      logger.error('Erreur détaillée:', { error: conversionError.message });
+      logger.error('Erreur lors de la conversion audio:', { error: conversionError.message });
       return res.status(400).json({
         message:
           'Erreur lors de la conversion du fichier audio. Vérifiez que le fichier nest pas corrompu.',

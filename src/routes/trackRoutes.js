@@ -16,13 +16,17 @@ import {
   filterTracks,
   sortTracks,
 } from '../controllers/trackController.js';
+import logger from '../config/logger.js';
 
 const router = Router();
 
-// Middleware de log - déplacé en haut
+// Middleware de log
 const logRequest = (req, res, next) => {
-  console.log('Route /tracks POST hit');
-  console.log('Request headers:', req.headers);
+  logger.info('Nouvelle requête de création de piste audio', {
+    headers: req.headers['content-type'],
+    method: req.method,
+    path: req.path,
+  });
   next();
 };
 
