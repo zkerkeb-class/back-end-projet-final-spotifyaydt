@@ -1,11 +1,13 @@
 import { createClient } from '@redis/client';
 import logger from './logger.js';
 
+const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
+
 const redisClient = createClient({
-  url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+  url: redisUrl,
   socket: {
-    tls: true, // Utilisation du protocole SSL/TLS
-    rejectUnauthorized: false, // Désactiver la vérification des certificats auto-signés
+    tls: true, // Utilisation du protocole SSL/TLS pour la connexion sécurisée
+    rejectUnauthorized: false, // Désactive la vérification des certificats auto-signés
   },
 });
 
