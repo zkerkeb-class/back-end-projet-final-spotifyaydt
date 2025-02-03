@@ -9,7 +9,6 @@ import setupSwagger from './src/config/swagger.js'; // Importez la configuration
 import logger from './src/config/logger.js';
 import metricsRoutes from './src/routes/metricsRoutes.js';
 import dotenv from 'dotenv';
-
 dotenv.config({ path: './env.dev' });
 const app = express();
 
@@ -62,6 +61,42 @@ app.get('/', (req, res) => {
 
 app.use('/api/metrics', metricsRoutes);
 
+// Fonction pour nettoyer un répertoire
+const cleanDirectory = (dirPath) => {
+  fs.readdirSync(dirPath).forEach((file) => {
+    const filePath = path.join(dirPath, file);
+    const stat = fs.statSync(filePath);
+
+    if (stat.isDirectory()) {
+      cleanDirectory(filePath); // Si c'est un dossier, appeler récursivement
+      fs.rmdirSync(filePath); // Supprimer le dossier vide
+    } else {
+      const fileAge = Date.now() - stat.mtimeMs;
+      const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+
+      if (fileAge > sevenDaysInMs) {
+        fs.unlinkSync(filePath); // Supprimer le fichier si il est plus vieux que 7 jours
+      }
+    }
+  });
+};
+
+// Endpoint pour nettoyer les fichiers temporaires
+app.get('/clean-temp', (req, res) => {
+  const tempDirs = [
+    '/tmp', // Dossier temporaire système
+    '/var/tmp', // Autre dossier temporaire système
+    path.join(__dirname, '.cache'), // Cache spécifique à ton app (par exemple pour Node.js ou autres)
+  ];
+
+  try {
+    tempDirs.forEach(cleanDirectory);
+    res.status(200).send('Nettoyage des fichiers temporaires terminé !');
+  } catch (error) {
+    console.error('Erreur pendant le nettoyage : ', error);
+    res.status(500).send('Une erreur est survenue lors du nettoyage.');
+  }
+});
 // Démarrer le serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
