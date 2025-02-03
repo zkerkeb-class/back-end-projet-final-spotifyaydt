@@ -4,52 +4,43 @@ import { RedisStore } from 'connect-redis';
 import cors from 'cors';
 import connectDB from './src/config/db.js';
 import routes from './src/routes/index.js';
-import redisClient from './src/config/redis.js';
-import setupSwagger from './src/config/swagger.js';
+import redisClient from './src/config/redis.js'; // Importez le client Redis
+import setupSwagger from './src/config/swagger.js'; // Importez la configuration Swagger
 import logger from './src/config/logger.js';
 import metricsRoutes from './src/routes/metricsRoutes.js';
 import dotenv from 'dotenv';
-import fs from 'fs/promises'; // fs.promises pour les appels non-bloquants
-import path from 'path'; // pour gérer les chemins
-
 dotenv.config({ path: './env.dev' });
-
 const app = express();
 
-// Configuration CORS
+// Configuration CORS - à ajouter avant les autres middlewares
 app.use(
   cors({
-    origin: 'http://localhost:3000', // Vérifie que cette URL est bien autorisée en développement
+    origin: 'http://localhost:3000', // URL de votre application React
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // Autorise les cookies
+    credentials: true, // Nécessaire si vous utilisez des sessions/cookies
   })
 );
 
 app.use(json());
 
-// Configuration des sessions avec Redis
+// Configuration de la session avec Redis
 app.use(
   session({
     store: new RedisStore({ client: redisClient }),
-    secret: process.env.SESSION_SECRET, // Vérifie que cette variable est bien définie
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production', // Sécurise les cookies en prod
-      httpOnly: true,
-      maxAge: 3600000, // Durée de vie du cookie (1 heure)
-    },
+    cookie: { secure: false, httpOnly: true, maxAge: 3600000 },
   })
 );
 
 // Connexion à la base de données
 connectDB();
 
-// Routes API
+// Utilisation des routes
 app.use('/api', routes);
 
-// Swagger
 setupSwagger(app);
 
 // Exemple de route pour tester les sessions
@@ -70,45 +61,43 @@ app.get('/', (req, res) => {
 
 app.use('/api/metrics', metricsRoutes);
 
-// Nettoyage des fichiers temporaires
-const cleanDirectory = async (dirPath) => {
-  const files = await fs.readdir(dirPath); // Utilisation de readdir avec Promises
-  for (const file of files) {
+// Fonction pour nettoyer un répertoire
+const cleanDirectory = (dirPath) => {
+  fs.readdirSync(dirPath).forEach((file) => {
     const filePath = path.join(dirPath, file);
-    const stat = await fs.stat(filePath); // Utilisation de stat avec Promises
+    const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      await cleanDirectory(filePath); // Appel récursif avec await
-      await fs.rmdir(filePath); // Suppression du dossier vide
+      cleanDirectory(filePath); // Si c'est un dossier, appeler récursivement
+      fs.rmdirSync(filePath); // Supprimer le dossier vide
     } else {
       const fileAge = Date.now() - stat.mtimeMs;
       const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
 
       if (fileAge > sevenDaysInMs) {
-        await fs.unlink(filePath); // Suppression du fichier si plus vieux que 7 jours
+        fs.unlinkSync(filePath); // Supprimer le fichier si il est plus vieux que 7 jours
       }
     }
-  }
+  });
 };
 
 // Endpoint pour nettoyer les fichiers temporaires
 app.get('/clean-temp', (req, res) => {
   const tempDirs = [
-    '/tmp',
-    '/var/tmp',
-    path.join(__dirname, '.cache'), // Ajuster si tu utilises des chemins spécifiques
+    '/tmp', // Dossier temporaire système
+    '/var/tmp', // Autre dossier temporaire système
+    path.join(__dirname, '.cache'), // Cache spécifique à ton app (par exemple pour Node.js ou autres)
   ];
 
   try {
-    tempDirs.forEach(cleanDirectory); // Nettoyage des répertoires
+    tempDirs.forEach(cleanDirectory);
     res.status(200).send('Nettoyage des fichiers temporaires terminé !');
   } catch (error) {
-    logger.error('Erreur pendant le nettoyage : ', error);
+    console.error('Erreur pendant le nettoyage : ', error);
     res.status(500).send('Une erreur est survenue lors du nettoyage.');
   }
 });
-
-// Démarrage du serveur
+// Démarrer le serveur
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
