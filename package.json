@@ -13,7 +13,7 @@
   "scripts": {
     "start-redis": "redis-server",
     "dev": "npm-run-all --parallel start-redis start",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
