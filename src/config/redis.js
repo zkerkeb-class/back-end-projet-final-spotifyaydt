@@ -3,10 +3,6 @@ import logger from './logger.js';
 
 const redisClient = createClient({
   url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
-  socket: {
-    tls: true, // Utilisation du protocole SSL/TLS
-    rejectUnauthorized: false, // Désactiver la vérification des certificats auto-signés
-  },
 });
 
 redisClient
