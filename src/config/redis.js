@@ -7,7 +7,7 @@ const redisClient = createClient({
   url: redisUrl,
   socket: {
     tls: true, // Utilisation du protocole SSL/TLS pour la connexion sécurisée
-    rejectUnauthorized: false, // Désactive la vérification des certificats auto-signés
+    rejectUnauthorized: false, // Désactive la vérification des certificats auto-signés, mais à changer pour la prod
   },
 });
 
@@ -18,8 +18,10 @@ redisClient
   })
   .catch((err) => {
     logger.error('Redis connection error:', err);
+    process.exit(1); // Arrêt du serveur en cas d'erreur de connexion Redis
   });
 
+// Écoute des événements
 redisClient.on('connect', () => {
   logger.info('Redis connecté avec succès');
 });
