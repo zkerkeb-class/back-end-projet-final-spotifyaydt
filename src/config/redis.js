@@ -1,25 +1,30 @@
-import { createClient } from '@redis/client';
+import { createClient } from 'redis';
 import logger from './logger.js';
 
+// URL Redis Azure
+const redisUrl = 'redis://spotifyAYDT.redis.cache.windows.net:6380';
+const redisPassword = 'yt7OWDARF1JKPvLObpXIj7GOvXZputGNbAzCaEtUOSs=';
+
 const redisClient = createClient({
-  url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+    url: redisUrl,
+    password: redisPassword,
+    socket: {
+        tls: true, // Sécuriser la connexion via TLS
+        rejectUnauthorized: false, // Accepter des certificats non autorisés (important pour certains services cloud)
+    }
 });
 
-redisClient
-  .connect()
-  .then(() => {
-    logger.info('Connected to Redis');
-  })
-  .catch((err) => {
-    logger.error('Redis connection error:', err);
-  });
-
-redisClient.on('connect', () => {
-  logger.info('Redis connecté avec succès');
+redisClient.on("error", (err) => {
+    logger.error("Erreur Redis:", err);
 });
 
-redisClient.on('error', (err) => {
-  logger.error('Erreur Redis:', err);
+redisClient.on("connect", () => {
+    logger.info("Redis connecté avec succès");
 });
+
+// Connexion à Redis
+redisClient.connect()
+    .then(() => logger.info("Redis connecté avec succès"))
+    .catch(err => logger.error("Échec de connexion à Redis:", err));
 
 export default redisClient;
