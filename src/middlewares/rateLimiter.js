@@ -2,7 +2,7 @@ import redisClient from '../config/redis.js';
 import logger from '../config/logger.js';
 
 const WINDOW_SIZE_IN_SECONDS = 60; // Fenêtre de temps (1 minute)
-const MAX_REQUESTS_PER_WINDOW = 100; // Nombre maximum de requêtes par fenêtre
+const MAX_REQUESTS_PER_WINDOW = 10000; // Nombre maximum de requêtes par fenêtre
 
 export const rateLimiter = async (req, res, next) => {
   try {
@@ -46,7 +46,7 @@ export const uploadRateLimiter = async (req, res, next) => {
     const identifier = req.ip;
     const key = `ratelimit:upload:${identifier}`;
     const UPLOAD_WINDOW = 3600; // 1 heure
-    const MAX_UPLOADS = 20; // 10 uploads par heure
+    const MAX_UPLOADS = 2000; // 10 uploads par heure
 
     const currentUploads = await redisClient.get(key);
 
@@ -79,7 +79,7 @@ export const heavyRequestRateLimiter = async (req, res, next) => {
     const identifier = req.ip;
     const key = `ratelimit:heavy:${identifier}`;
     const HEAVY_WINDOW = 300; // 5 minutes
-    const MAX_HEAVY_REQUESTS = 20; // 20 requêtes lourdes par 5 minutes
+    const MAX_HEAVY_REQUESTS = 2000; // 20 requêtes lourdes par 5 minutes
 
     const currentRequests = await redisClient.get(key);
 

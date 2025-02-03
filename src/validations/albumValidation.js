@@ -6,7 +6,7 @@ export const createAlbumSchema = Joi.object({
   artist: Joi.string().required(),
   releaseDate: Joi.date().iso().required(),
   genre: Joi.string().required(),
-  imageUrl: Joi.string().uri(),
+  coverImage: Joi.string().uri(),
   tracks: Joi.array().items(Joi.string()),
   description: Joi.string().max(500),
 });
@@ -16,7 +16,7 @@ export const updateAlbumSchema = Joi.object({
   artist: Joi.string(),
   releaseDate: Joi.date().iso(),
   genre: Joi.string(),
-  imageUrl: Joi.string().uri(),
+  coverImage: Joi.string().uri(),
   tracks: Joi.array().items(Joi.string()),
   description: Joi.string().max(500),
 }).min(1);
