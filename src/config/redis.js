@@ -1,16 +1,13 @@
 import { createClient } from 'redis';
 import logger from './logger.js';
 
-// URL Redis Azure
-const redisUrl = 'redis://spotifyAYDT.redis.cache.windows.net:6380';
-const redisPassword = 'yt7OWDARF1JKPvLObpXIj7GOvXZputGNbAzCaEtUOSs=';
+// URL Redis Render
+const redisUrl = 'redis://red-cugusshu0jms73frn0v0:6379';
 
 const redisClient = createClient({
     url: redisUrl,
-    password: redisPassword,
     socket: {
-        tls: true, // Sécuriser la connexion via TLS
-        rejectUnauthorized: false, // Accepter des certificats non autorisés (important pour certains services cloud)
+        tls: false, // Désactiver TLS si Render ne l'exige pas
     }
 });
 
