@@ -4,8 +4,8 @@ import { RedisStore } from 'connect-redis';
 import cors from 'cors';
 import connectDB from './src/config/db.js';
 import routes from './src/routes/index.js';
-import redisClient from './src/config/redis.js'; // Importez le client Redis
-import setupSwagger from './src/config/swagger.js'; // Importez la configuration Swagger
+import redisClient from './src/config/redis.js';
+import setupSwagger from './src/config/swagger.js';
 import logger from './src/config/logger.js';
 import metricsRoutes from './src/routes/metricsRoutes.js';
 import dotenv from 'dotenv';
@@ -15,7 +15,7 @@ const app = express();
 // Configuration CORS - à ajouter avant les autres middlewares
 app.use(
   cors({
-     origin: ['http://localhost:3000', 'https://spotifyaydt.netlify.app'], // URL de votre application React
+    origin: ['http://localhost:3000', 'https://spotifyaydt.netlify.app'], // URL de votre application React
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true, // Nécessaire si vous utilisez des sessions/cookies
@@ -93,7 +93,7 @@ app.get('/clean-temp', (req, res) => {
     tempDirs.forEach(cleanDirectory);
     res.status(200).send('Nettoyage des fichiers temporaires terminé !');
   } catch (error) {
-    console.error('Erreur pendant le nettoyage : ', error);
+    logger.error('Erreur pendant le nettoyage : ', error);
     res.status(500).send('Une erreur est survenue lors du nettoyage.');
   }
 });

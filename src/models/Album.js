@@ -45,7 +45,7 @@ albumSchema.pre('find', function (next) {
 });
 
 albumSchema.post('find', function () {
-  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+  logger.info(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
 });
 
 // Exportation du modèle
