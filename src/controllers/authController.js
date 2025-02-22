@@ -11,16 +11,17 @@ const login = (req, res) => {
   const userData = {
     id: 1,
     email: email,
+    password: password,
     role: 'admin',
   };
 
   // Générer le JWT
   const token = jwt.sign(userData, SECRET_KEY, { expiresIn: '1h' });
 
-  res.json({ 
+  res.json({
     success: true,
     token,
-    message: 'Connexion réussie'
+    message: 'Connexion réussie',
   });
 };
 

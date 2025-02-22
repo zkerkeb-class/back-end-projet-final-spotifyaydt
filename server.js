@@ -9,8 +9,16 @@ import setupSwagger from './src/config/swagger.js';
 import logger from './src/config/logger.js';
 import metricsRoutes from './src/routes/metricsRoutes.js';
 import dotenv from 'dotenv';
+import setupJamSockets from './src/websockets/jamSockets.js';
+import http from 'http';
 dotenv.config({ path: './env.dev' });
 const app = express();
+
+// Création du serveur HTTP
+const server = http.createServer(app);
+
+// Configuration des sockets
+setupJamSockets(server);
 
 // Configuration CORS - à ajouter avant les autres middlewares
 app.use(
@@ -101,4 +109,8 @@ app.get('/clean-temp', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
+});
+
+server.listen(3002, () => {
+  logger.info('🎶 Jam server running on port 3002');
 });
