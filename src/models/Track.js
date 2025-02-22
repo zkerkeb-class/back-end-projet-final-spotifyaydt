@@ -43,6 +43,14 @@ const trackSchema = new Schema(
       type: Date,
       required: true,
     },
+    coverImage: {
+      type: String, // URL de l'image de couverture
+      default: '',
+    },
+    lyrics: {
+      type: String,
+      default: '',
+    },
   },
   {
     timestamps: true,
@@ -55,10 +63,10 @@ trackSchema.pre('find', function (next) {
 });
 
 trackSchema.post('find', function () {
-  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+  logger.info(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
   const executionTime = Date.now() - this.executionStartTime;
   if (executionTime > 1000) {
-    console.log('Recherche longue');
+    logger.info('Recherche longue');
   }
 });
 

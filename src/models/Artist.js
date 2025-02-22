@@ -29,6 +29,10 @@ const artistSchema = new Schema(
       type: Number,
       default: 0,
     },
+    coverImage: {
+      type: String, // URL de l'image de couverture
+      default: '',
+    },
   },
   {
     timestamps: true, // Ajoute des champs createdAt et updatedAt
@@ -42,7 +46,7 @@ artistSchema.pre('find', function (next) {
 });
 
 artistSchema.post('find', function () {
-  console.log(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
+  logger.info(`La recherche a pris ${Date.now() - this.executionStartTime}ms`);
 });
 
 // Exportation du modèle

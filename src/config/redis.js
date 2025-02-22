@@ -1,25 +1,27 @@
-import { createClient } from '@redis/client';
+import { createClient } from 'redis';
 import logger from './logger.js';
 
+// URL Redis Render
+const redisUrl = 'redis://red-cugusshu0jms73frn0v0:6379';
+
 const redisClient = createClient({
-  url: process.env.REDIS_URL || 'redis://127.0.0.1:6379',
+    url: redisUrl,
+    socket: {
+        tls: false, // Désactiver TLS si Render ne l'exige pas
+    }
 });
 
-redisClient
-  .connect()
-  .then(() => {
-    logger.info('Connected to Redis');
-  })
-  .catch((err) => {
-    logger.error('Redis connection error:', err);
-  });
-
-redisClient.on('connect', () => {
-  logger.info('Redis connecté avec succès');
+redisClient.on("error", (err) => {
+    logger.error("Erreur Redis:", err);
 });
 
-redisClient.on('error', (err) => {
-  logger.error('Erreur Redis:', err);
+redisClient.on("connect", () => {
+    logger.info("Redis connecté avec succès");
 });
+
+// Connexion à Redis
+redisClient.connect()
+    .then(() => logger.info("Redis connecté avec succès"))
+    .catch(err => logger.error("Échec de connexion à Redis:", err));
 
 export default redisClient;
