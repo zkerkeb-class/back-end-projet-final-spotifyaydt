@@ -24,10 +24,9 @@ config({ path: envFile });
 // Destructuration des variables d'environnement
 const { MONGODB_USER, MONGODB_PASSWORD, MONGODB_CLUSTER } = process.env;
 
-// Si les variables ne sont pas définies, on lance une erreur
-if (!MONGODB_USER || !MONGODB_PASSWORD || !MONGODB_CLUSTER) {
-  throw new Error('Please provide env variables.');
-}
+// if (!MONGODB_USER || !MONGODB_PASSWORD || !MONGODB_CLUSTER) {
+//   throw new Error('Missing required environment variables');
+// }
 
 // Configuration de la base de données
 const commonConfig = {
@@ -35,6 +34,5 @@ const commonConfig = {
   password: MONGODB_PASSWORD,
   cluster: MONGODB_CLUSTER,
 };
-
 // Export de commonConfig
 export { commonConfig };
